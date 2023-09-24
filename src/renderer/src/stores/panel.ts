@@ -83,7 +83,7 @@ const data: {
         isTop: false,
         isFocus: false,
         startup: false,
-        http_cache: false,
+        http_cache: true,
     },
     server: {
         switch: false,

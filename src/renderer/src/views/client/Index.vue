@@ -1,10 +1,10 @@
 <template>
     <div class="fxy-layout">
         <div class="fxy-header">
-            <div class="back" :style="imStore.client.back_btn.value" @click="doView.jump('/')"></div>
+            <div class="back" :style="imStore.client.back_btn.value" @click="leavePage"></div>
         </div>
         <div class="fxy-panel">
-            <iframe :src="imStore.client.url_host.value" frameborder="0"></iframe>
+            <webview id="box" class="box" :src="imStore.client.url_host.value"></webview>
         </div>
     </div>
 </template>
@@ -12,6 +12,13 @@
 <script lang="ts" setup>
     import { imStore } from '@/libs/base'
     import { doView } from '@/libs/module'
+    // 离开页面
+    function leavePage(): void {
+        // 移除webview标签
+        $('.fxy-panel .box').remove()
+        // 跳转到首页
+        doView.jump('/')
+    }
 </script>
 
 <style lang="scss" scoped>
@@ -55,7 +62,7 @@
         overflow: hidden;
     }
 
-    .fxy-panel iframe {
+    .fxy-panel .box {
         width: 100%;
         height: 100%;
     }

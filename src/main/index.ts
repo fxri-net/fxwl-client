@@ -70,6 +70,8 @@ function createWindow(): BrowserWindow {
             preload: join(__dirname, '../preload/index.js'),
             // 沙箱模式
             sandbox: false,
+            // WebView标签
+            webviewTag: true,
         },
     })
     mainWindow.setBounds({
