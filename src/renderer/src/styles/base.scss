@@ -1,34 +1,34 @@
 /* 公共样式 */
 * {
-    margin: 0;
-    padding: 0;
-    word-break: break-all;
-    word-wrap: break-word;
+  margin: 0;
+  padding: 0;
+  word-break: break-all;
+  word-wrap: break-word;
 }
 
 html {
-    background: #ffffff;
-    touch-action: manipulation;
+  background: #ffffff;
+  touch-action: manipulation;
 }
 
 a {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 #app {
-    height: 100vh;
+  height: 100vh;
 }
 
 .fxy-layout {
-    min-height: 100%;
+  min-height: 100%;
 }
 
 .fxy-layout.scale {
-    position: relative;
-    min-width: 1920px;
-    min-height: 1080px;
-    width: 1920px;
-    height: 1080px;
-    transform-origin: left top;
-    overflow: hidden;
+  position: relative;
+  min-width: 1920px;
+  min-height: 1080px;
+  width: 1920px;
+  height: 1080px;
+  transform-origin: left top;
+  overflow: hidden;
 }

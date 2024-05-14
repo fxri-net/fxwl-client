@@ -3,9 +3,9 @@
 // +----------------------------------------------------------------------
 // | Category 方弦研究所
 // +----------------------------------------------------------------------
-import { createPinia } from 'pinia'
+import { createPinia } from "pinia"
 // 引入持久化插件
-import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
+import piniaPluginPersistedstate from "pinia-plugin-persistedstate"
 // 初始化pinia
 const store = createPinia()
 // 使用该插件

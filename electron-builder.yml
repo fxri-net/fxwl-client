@@ -2,49 +2,49 @@ appId: net.fxri.fxwl-client
 productName: 方弦物联：展示终端
 copyright: Copyright © 2023 方弦研究所. All rights reserved.
 directories:
-    buildResources: build
+  buildResources: build
 files:
-    - '!**/.vscode/*'
-    - '!config/*'
-    - '!src/*'
-    - '!website/*'
-    - '!electron.vite.config.{js,ts,mjs,cjs}'
-    - '!{.eslintignore,.eslintrc.cjs,.prettierignore,.prettierrc.yaml,dev-app-update.yml,CHANGELOG.md,README.md}'
-    - '!{.env,.env.*,.npmrc,pnpm-lock.yaml}'
-    - '!{tsconfig.json,tsconfig.node.json,tsconfig.web.json}'
+  - "!**/.vscode/*"
+  - "!config/*"
+  - "!src/*"
+  - "!website/*"
+  - "!electron.vite.config.{js,ts,mjs,cjs}"
+  - "!{.eslintignore,.eslintrc.cjs,.prettierignore,.prettierrc.yaml,dev-app-update.yml,CHANGELOG.md,README.md}"
+  - "!{.env,.env.*,.npmrc,pnpm-lock.yaml}"
+  - "!{tsconfig.json,tsconfig.node.json,tsconfig.web.json}"
 asarUnpack:
-    - resources/**
+  - resources/**
 afterSign: build/notarize.js
 win:
-    executableName: fxwl-client
+  executableName: fxwl-client
 nsis:
-    artifactName: ${description}-${version}.${ext}
-    shortcutName: ${productName}
-    uninstallDisplayName: ${productName}
-    createDesktopShortcut: always
-    oneClick: false
-    allowToChangeInstallationDirectory: true
-    installerIcon: 'build/icon_mini.ico'
-    uninstallerIcon: 'build/icon_mini.ico'
+  artifactName: ${description}-${version}.${ext}
+  shortcutName: ${productName}
+  uninstallDisplayName: ${productName}
+  createDesktopShortcut: always
+  oneClick: false
+  allowToChangeInstallationDirectory: true
+  installerIcon: "build/icon_mini.ico"
+  uninstallerIcon: "build/icon_mini.ico"
 mac:
-    entitlementsInherit: build/entitlements.mac.plist
-    extendInfo:
-        - NSCameraUsageDescription: Application requests access to the device's camera.
-        - NSMicrophoneUsageDescription: Application requests access to the device's microphone.
-        - NSDocumentsFolderUsageDescription: Application requests access to the user's Documents folder.
-        - NSDownloadsFolderUsageDescription: Application requests access to the user's Downloads folder.
+  entitlementsInherit: build/entitlements.mac.plist
+  extendInfo:
+    - NSCameraUsageDescription: Application requests access to the device's camera.
+    - NSMicrophoneUsageDescription: Application requests access to the device's microphone.
+    - NSDocumentsFolderUsageDescription: Application requests access to the user's Documents folder.
+    - NSDownloadsFolderUsageDescription: Application requests access to the user's Downloads folder.
 dmg:
-    artifactName: ${description}-${version}.${ext}
+  artifactName: ${description}-${version}.${ext}
 linux:
-    target:
-        - AppImage
-        - snap
-        - deb
-    maintainer: electronjs.org
-    category: Utility
+  target:
+    - AppImage
+    - snap
+    - deb
+  maintainer: electronjs.org
+  category: Utility
 appImage:
-    artifactName: ${description}-${version}.${ext}
+  artifactName: ${description}-${version}.${ext}
 npmRebuild: false
 publish:
-    provider: generic
-    url: https://example.com/auto-updates
+  provider: generic
+  url: https://example.com/auto-updates
