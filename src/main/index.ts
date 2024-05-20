@@ -8,9 +8,7 @@ import { join } from "path"
 import { electronApp, optimizer, is } from "@electron-toolkit/utils"
 import icon from "../../resources/icon_mini.png?asset"
 import { doBase, doEvent } from "./base"
-/**
- * 校验数字
- */
+/** 校验数字 */
 export function isNumeric(data: any): boolean {
   // 初始化变量
   switch (typeof data) {

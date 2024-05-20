@@ -8,34 +8,20 @@ declare global {
   interface Window {
     electron: ElectronAPI
     api: unknown
-    /**
-     * 本地模块
-     */
+    /** 本地模块 */
     doNative: object
   }
-  /**
-   * 本地模块
-   */
+  /** 本地模块 */
   const doNative: {
-    /**
-     * 重启应用
-     */
+    /** 重启应用 */
     restart: function
-    /**
-     * 退出应用
-     */
+    /** 退出应用 */
     quit: function
-    /**
-     * 命令脚本
-     */
+    /** 命令脚本 */
     shell: function
-    /**
-     * 数据存储
-     */
+    /** 数据存储 */
     store: any
-    /**
-     * 打开文件
-     */
+    /** 打开文件 */
     openFile: function
   }
 }

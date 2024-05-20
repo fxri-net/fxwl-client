@@ -3,9 +3,7 @@
 // +----------------------------------------------------------------------
 // | Category 方弦研究所
 // +----------------------------------------------------------------------
-/**
- * 校验Json
- */
+/** 校验Json */
 export function isJson(data: any): boolean {
   // 初始化变量
   try {
@@ -16,9 +14,7 @@ export function isJson(data: any): boolean {
   }
   return false
 }
-/**
- * 校验空值
- */
+/** 校验空值 */
 export function isEmpty(data: any): boolean {
   // 初始化变量
   switch (Object.prototype.toString.call(data)) {
@@ -48,44 +44,32 @@ export function isEmpty(data: any): boolean {
   }
   return false
 }
-/**
- * 校验UNDEFINED
- */
+/** 校验UNDEFINED */
 export function isUndefined(data: any): boolean {
   // 初始化变量
   return data === undefined
 }
-/**
- * 校验NULL
- */
+/** 校验NULL */
 export function isNull(data: any): boolean {
   // 初始化变量
   return data === null
 }
-/**
- * 校验变量
- */
+/** 校验变量 */
 export function isSet(data: any): boolean {
   // 初始化变量
   return data !== null && data !== undefined
 }
-/**
- * 校验空白
- */
+/** 校验空白 */
 export function isBlank(data: any): boolean {
   // 初始化变量
   return !isSet(data) || data === ""
 }
-/**
- * 校验数组
- */
+/** 校验数组 */
 export function isArray(data: any): boolean {
   // 初始化变量
   return Array.isArray(data)
 }
-/**
- * 校验对象
- */
+/** 校验对象 */
 export function isObject(data: any): boolean {
   // 初始化变量
   return (
@@ -93,16 +77,12 @@ export function isObject(data: any): boolean {
     Object.prototype.toString.call(data) == "[object Arguments]"
   )
 }
-/**
- * 校验数组或对象
- */
+/** 校验数组或对象 */
 export function isAorO(data: any): boolean {
   // 初始化变量
   return isArray(data) || isObject(data)
 }
-/**
- * 校验元素
- */
+/** 校验元素 */
 export function isHtml(data: any): boolean {
   const elem = document.createElement("div")
   try {
@@ -114,23 +94,17 @@ export function isHtml(data: any): boolean {
   }
   return data == window || data == document
 }
-/**
- * 校验方法
- */
+/** 校验方法 */
 export function isFunction(data: any): boolean {
   // 初始化变量
   return typeof data === "function"
 }
-/**
- * 校验字符串
- */
+/** 校验字符串 */
 export function isString(data: any): boolean {
   // 初始化变量
   return typeof data == "string"
 }
-/**
- * 校验数字
- */
+/** 校验数字 */
 export function isNumeric(data: any): boolean {
   // 初始化变量
   switch (typeof data) {
@@ -144,33 +118,25 @@ export function isNumeric(data: any): boolean {
   }
   return false
 }
-/**
- * 校验手机
- */
+/** 校验手机 */
 export function isMobile(data: any): boolean {
   // 初始化变量
   const reg = /^1\d{10}$/
   return reg.test(data)
 }
-/**
- * 校验邮箱
- */
+/** 校验邮箱 */
 export function isEmail(data: any): boolean {
   // 初始化变量
   const reg = /^([a-zA-Z]|[0-9])(\w|-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/
   return reg.test(data)
 }
-/**
- * 校验金额
- */
+/** 校验金额 */
 export function isMoney(data: any): boolean {
   // 初始化变量
   const reg = /^(([1-9]\d*)|\d)(\.\d{1,2})?$/
   return reg.test(data)
 }
-/**
- * 校验URL
- */
+/** 校验URL */
 export function isUrl(data: any): boolean {
   // 初始化变量
   return data.indexOf("http") === 0

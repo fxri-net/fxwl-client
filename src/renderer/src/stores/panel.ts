@@ -6,70 +6,38 @@
 import { defineStore } from "pinia"
 // 定义数据
 const data: {
-  /**
-   * 窗口
-   */
+  /** 窗口 */
   window: {
-    /**
-     * 宽度
-     */
+    /** 宽度 */
     width: number
-    /**
-     * 高度
-     */
+    /** 高度 */
     height: number
-    /**
-     * 左边距
-     */
+    /** 左边距 */
     x: number | string
-    /**
-     * 上边距
-     */
+    /** 上边距 */
     y: number | string
-    /**
-     * 全屏
-     */
+    /** 全屏 */
     fullscreen: boolean
-    /**
-     * 无边框
-     */
+    /** 无边框 */
     frame: boolean
-    /**
-     * 置顶
-     */
+    /** 置顶 */
     isTop: boolean
-    /**
-     * 强制置顶
-     */
+    /** 强制置顶 */
     isFocus: boolean
-    /**
-     * 开机自启
-     */
+    /** 开机自启 */
     startup: boolean
-    /**
-     * HTTP缓存
-     */
+    /** HTTP缓存 */
     http_cache: boolean
   }
-  /**
-   * 服务器
-   */
+  /** 服务器 */
   server: {
-    /**
-     * 开关
-     */
+    /** 开关 */
     switch: boolean
-    /**
-     * 目录
-     */
+    /** 目录 */
     dir: string
-    /**
-     * 端口
-     */
+    /** 端口 */
     port: string
-    /**
-     * 端口占用提示
-     */
+    /** 端口占用提示 */
     port_prompt: boolean
   }
 } = {

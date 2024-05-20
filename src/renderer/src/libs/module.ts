@@ -5,13 +5,9 @@
 // +----------------------------------------------------------------------
 import { LocationQueryRaw } from "vue-router"
 import { ElNotification, ElMessage } from "element-plus"
-/**
- * 消息模块
- */
+/** 消息模块 */
 export const doInfo = {
-  /**
-   * 通知消息
-   */
+  /** 通知消息 */
   notice: function (...args: any[]): void {
     setTimeout(() => {
       // 设置根元素
@@ -20,9 +16,7 @@ export const doInfo = {
       ElNotification(...args)
     }, 0)
   },
-  /**
-   * 消息提示
-   */
+  /** 消息提示 */
   message: function (...args: any[]): void {
     setTimeout(() => {
       // 设置根元素
@@ -32,13 +26,9 @@ export const doInfo = {
     }, 0)
   }
 }
-/**
- * 参数模块
- */
+/** 参数模块 */
 export const doParam = {
-  /**
-   * 定义变量
-   */
+  /** 定义变量 */
   define: function (base: any, data: any, empty = false): any {
     // 定义变量
     $.each(data, function (key, value) {
@@ -50,9 +40,7 @@ export const doParam = {
     })
     return base
   },
-  /**
-   * 监听变量
-   */
+  /** 监听变量 */
   watch: function (name: string, base?: any): void {
     // 疏理基础
     if (!isObject(base)) return
@@ -75,9 +63,7 @@ export const doParam = {
       { deep: true }
     )
   },
-  /**
-   * 处理枚举
-   */
+  /** 处理枚举 */
   enum: function (index: any, enums: any): void {
     // 处理枚举
     if (isString(enums)) {
@@ -86,13 +72,9 @@ export const doParam = {
     return isSet(enums[index]) ? enums[index] : ""
   }
 }
-/**
- * 视图模块
- */
+/** 视图模块 */
 export const doView = {
-  /**
-   * 计算缩放
-   */
+  /** 计算缩放 */
   scale: function (
     width: number,
     height: number,
@@ -105,9 +87,7 @@ export const doView = {
     // 计算缩放
     return "transform: scale(" + boxW / width + ", " + boxH / height + ")"
   },
-  /**
-   * 跳转页面
-   */
+  /** 跳转页面 */
   jump: function (url: string, param?: LocationQueryRaw): void {
     // 检查url
     if (!isUrl(url)) {
@@ -116,9 +96,7 @@ export const doView = {
       window.location.href = url
     }
   },
-  /**
-   * 处理URL
-   */
+  /** 处理URL */
   url: function (url: string): string {
     // 检查url
     if (!isUrl(url)) {

@@ -9,36 +9,22 @@ import httpServer from "http-server"
 import shell from "child_process"
 import path from "path"
 import fs from "fs"
-/**
- * 根路径
- */
+/** 根路径 */
 const doRoot = app.isPackaged
   ? path.resolve(app.getPath("exe"), "..")
   : path.resolve(app.getAppPath())
-/**
- * 基础模块
- */
+/** 基础模块 */
 export const doBase: {
-  /**
-   * 应用数据
-   */
+  /** 应用数据 */
   app: {
-    /**
-     * 主窗口
-     */
+    /** 主窗口 */
     mainWindow?: BrowserWindow
   }
-  /**
-   * 根路径
-   */
+  /** 根路径 */
   root: string
-  /**
-   * 存储数据
-   */
+  /** 存储数据 */
   store: Store
-  /**
-   * 注册事件
-   */
+  /** 注册事件 */
   register: any
 } = {
   app: {},
@@ -58,32 +44,22 @@ export const doBase: {
     }
   }
 }
-/**
- * 事件模块
- */
+/** 事件模块 */
 export const doEvent = {
-  /**
-   * 重启应用
-   */
+  /** 重启应用 */
   restart: function (): void {
     app.relaunch()
     app.quit()
   },
-  /**
-   * 退出应用
-   */
+  /** 退出应用 */
   quit: function (): void {
     app.quit()
   },
-  /**
-   * 命令脚本
-   */
+  /** 命令脚本 */
   shell: function (command: string): void {
     shell.exec(command)
   },
-  /**
-   * 数据存储
-   */
+  /** 数据存储 */
   store: function (_event: any, name: "set" | "get", data: any): any {
     switch (name) {
       case "set":
@@ -108,9 +84,7 @@ export const doEvent = {
         return doBase.store.get(data)
     }
   },
-  /**
-   * 打开文件
-   */
+  /** 打开文件 */
   openFile: async function (_event: any, option: object): Promise<any> {
     // 校验窗口
     if (doBase.app.mainWindow == undefined) return
@@ -124,9 +98,7 @@ export const doEvent = {
       return filePaths
     }
   },
-  /**
-   * 创建HTTP服务
-   */
+  /** 创建HTTP服务 */
   httpServer: function (): void {
     // 获取配置
     const config: { app: any; server: any } = {

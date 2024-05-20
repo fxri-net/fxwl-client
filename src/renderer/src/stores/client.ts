@@ -6,13 +6,9 @@
 import { defineStore } from "pinia"
 // 定义数据
 const data = {
-  /**
-   * 页面地址
-   */
+  /** 页面地址 */
   url_host: "http://127.0.0.1:2602",
-  /**
-   * 返回按钮
-   */
+  /** 返回按钮 */
   back_btn: ""
 }
 // 定义存储
