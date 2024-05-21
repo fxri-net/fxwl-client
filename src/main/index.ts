@@ -42,16 +42,11 @@ function createWindow(): BrowserWindow {
     // 窗口上边距
     y: isNumeric(config.window?.y) ? config.window.y - 0 : undefined,
     // 窗口置顶
-    alwaysOnTop:
-      typeof config.window?.isTop == "boolean" ? config.window.isTop : false,
+    alwaysOnTop: typeof config.window?.isTop == "boolean" ? config.window.isTop : false,
     // 窗口全屏
-    fullscreen:
-      typeof config.window?.fullscreen == "boolean"
-        ? config.window.fullscreen
-        : false,
+    fullscreen: typeof config.window?.fullscreen == "boolean" ? config.window.fullscreen : false,
     // 窗口边框
-    frame:
-      typeof config.window?.frame == "boolean" ? !config.window.frame : true,
+    frame: typeof config.window?.frame == "boolean" ? !config.window.frame : true,
     // 窗口是否在创建时显示
     show: false,
     // 自动隐藏菜单栏
@@ -112,10 +107,7 @@ function createWindow(): BrowserWindow {
   return mainWindow
 }
 //禁用http缓存
-if (
-  typeof config.window?.http_cache == "boolean" &&
-  !config.window.http_cache
-) {
+if (typeof config.window?.http_cache == "boolean" && !config.window.http_cache) {
   app.commandLine.appendSwitch("--disable-http-cache")
 }
 // This method will be called when Electron has finished

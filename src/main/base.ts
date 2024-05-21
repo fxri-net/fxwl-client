@@ -10,9 +10,7 @@ import shell from "child_process"
 import path from "path"
 import fs from "fs"
 /** 根路径 */
-const doRoot = app.isPackaged
-  ? path.resolve(app.getPath("exe"), "..")
-  : path.resolve(app.getAppPath())
+const doRoot = app.isPackaged ? path.resolve(app.getPath("exe"), "..") : path.resolve(app.getAppPath())
 /** 基础模块 */
 export const doBase: {
   /** 应用数据 */
@@ -30,10 +28,7 @@ export const doBase: {
   app: {},
   root: doRoot,
   store: new Store({
-    cwd: path.resolve(
-      doRoot,
-      app.isPackaged ? "../fxwl-local/config" : "config"
-    )
+    cwd: path.resolve(doRoot, app.isPackaged ? "../fxwl-local/config" : "config")
   }),
   register: function (mainWindow: BrowserWindow): void {
     // 记录主窗口
@@ -89,10 +84,7 @@ export const doEvent = {
     // 校验窗口
     if (doBase.app.mainWindow == undefined) return
     // 打开文件
-    const { canceled, filePaths } = await dialog.showOpenDialog(
-      doBase.app.mainWindow,
-      option
-    )
+    const { canceled, filePaths } = await dialog.showOpenDialog(doBase.app.mainWindow, option)
     // 返回数据
     if (!canceled) {
       return filePaths
@@ -113,11 +105,7 @@ export const doEvent = {
     config.server?.dir == undefined && (config.server.dir = "website")
     // 疏理目录
     if (app.isPackaged) {
-      config.server.dir = path.resolve(
-        doBase.root,
-        "../fxwl-local/",
-        config.server.dir
-      )
+      config.server.dir = path.resolve(doBase.root, "../fxwl-local/", config.server.dir)
     } else {
       config.server.dir = path.resolve(doBase.root, config.server.dir)
     }
@@ -126,28 +114,25 @@ export const doEvent = {
       fs.mkdirSync(config.server.dir)
     }
     // 检测端口占用
-    shell.exec(
-      'netstat -ano | findstr /R "' + config.server.port + '.*LISTENING"',
-      (_err, stdout) => {
-        // 校验输出
-        if (stdout != "") {
-          config.server?.port_prompt &&
-            doBase.app.mainWindow &&
-            dialog.showMessageBox(doBase.app.mainWindow, {
-              message: "端口：" + config.server.port + "已被占用",
-              title: config.app?.title ?? "方弦物联"
-            })
-          return false
-        }
-        // 创建HTTP服务
-        httpServer
-          .createServer({
-            root: config.server.dir,
-            showDir: false
+    shell.exec('netstat -ano | findstr /R "' + config.server.port + '.*LISTENING"', (_err, stdout) => {
+      // 校验输出
+      if (stdout != "") {
+        config.server?.port_prompt &&
+          doBase.app.mainWindow &&
+          dialog.showMessageBox(doBase.app.mainWindow, {
+            message: "端口：" + config.server.port + "已被占用",
+            title: config.app?.title ?? "方弦物联"
           })
-          .listen(config.server.port)
-        return true
+        return false
       }
-    )
+      // 创建HTTP服务
+      httpServer
+        .createServer({
+          root: config.server.dir,
+          showDir: false
+        })
+        .listen(config.server.port)
+      return true
+    })
   }
 }

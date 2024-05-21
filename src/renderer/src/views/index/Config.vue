@@ -1,19 +1,11 @@
 <template>
   <div class="fxy-layout">
     <el-form class="fxy-panel" label-position="top">
-      <el-tabs
-        v-model="imStore.app.panel_index.value"
-        type="border-card"
-        @tab-change="tabChange"
-      >
+      <el-tabs v-model="imStore.app.panel_index.value" type="border-card" @tab-change="tabChange">
         <el-tab-pane label="应用">
           <el-divider content-position="left">环境配置</el-divider>
           <el-form-item label="应用标题">
-            <el-input
-              v-model="imStore.app.title.value"
-              type="text"
-              autocomplete="off"
-            />
+            <el-input v-model="imStore.app.title.value" type="text" autocomplete="off" />
           </el-form-item>
           <el-form-item label="调试模式">
             <el-switch
@@ -26,26 +18,11 @@
             />
           </el-form-item>
           <el-form-item label="默认页面">
-            <el-select
-              v-model="imStore.app.url_default.value"
-              class="m-2"
-              placeholder="选择默认页面"
-              size="large"
-            >
-              <el-option
-                v-for="(item, index) in imStore.app.url_list.value"
-                :key="index"
-                :label="index"
-                :value="item"
-              />
+            <el-select v-model="imStore.app.url_default.value" class="m-2" placeholder="选择默认页面" size="large">
+              <el-option v-for="(item, index) in imStore.app.url_list.value" :key="index" :label="index" :value="item" />
             </el-select>
           </el-form-item>
-          <el-popconfirm
-            confirm-button-text="是"
-            cancel-button-text="否"
-            title="重置为默认值?"
-            @confirm="reloadStore('app')"
-          >
+          <el-popconfirm confirm-button-text="是" cancel-button-text="否" title="重置为默认值?" @confirm="reloadStore('app')">
             <template #reference>
               <el-button>重置选项</el-button>
             </template>
@@ -56,34 +33,18 @@
           <el-row>
             <el-col :span="12">
               <el-form-item label="宽度">
-                <el-input
-                  v-model="imStore.panel.window.value.width"
-                  type="text"
-                  autocomplete="off"
-                />
+                <el-input v-model="imStore.panel.window.value.width" type="text" autocomplete="off" />
               </el-form-item>
               <el-form-item label="高度">
-                <el-input
-                  v-model="imStore.panel.window.value.height"
-                  type="text"
-                  autocomplete="off"
-                />
+                <el-input v-model="imStore.panel.window.value.height" type="text" autocomplete="off" />
               </el-form-item>
             </el-col>
             <el-col :span="12" class="col-right">
               <el-form-item label="左边距">
-                <el-input
-                  v-model="imStore.panel.window.value.x"
-                  type="text"
-                  autocomplete="off"
-                />
+                <el-input v-model="imStore.panel.window.value.x" type="text" autocomplete="off" />
               </el-form-item>
               <el-form-item label="上边距">
-                <el-input
-                  v-model="imStore.panel.window.value.y"
-                  type="text"
-                  autocomplete="off"
-                />
+                <el-input v-model="imStore.panel.window.value.y" type="text" autocomplete="off" />
               </el-form-item>
             </el-col>
             <el-col :span="4">
@@ -173,15 +134,8 @@
                 />
               </el-form-item>
               <el-form-item label="目录">
-                <el-input
-                  v-model="imStore.panel.server.value.dir"
-                  type="text"
-                  autocomplete="off"
-                  style="width: calc(100% - 88px)"
-                />
-                <el-button type="warning" @click="chooseDir"
-                  >选择目录</el-button
-                >
+                <el-input v-model="imStore.panel.server.value.dir" type="text" autocomplete="off" style="width: calc(100% - 88px)" />
+                <el-button type="warning" @click="chooseDir">选择目录</el-button>
               </el-form-item>
             </el-col>
             <el-col :span="12" class="col-right">
@@ -196,20 +150,11 @@
                 />
               </el-form-item>
               <el-form-item label="端口">
-                <el-input
-                  v-model="imStore.panel.server.value.port"
-                  type="text"
-                  autocomplete="off"
-                />
+                <el-input v-model="imStore.panel.server.value.port" type="text" autocomplete="off" />
               </el-form-item>
             </el-col>
           </el-row>
-          <el-popconfirm
-            confirm-button-text="是"
-            cancel-button-text="否"
-            title="重置为默认值?"
-            @confirm="reloadStore('panel')"
-          >
+          <el-popconfirm confirm-button-text="是" cancel-button-text="否" title="重置为默认值?" @confirm="reloadStore('panel')">
             <template #reference>
               <el-button>重置选项</el-button>
             </template>
@@ -218,33 +163,14 @@
         <el-tab-pane label="客户端">
           <el-divider content-position="left">环境配置</el-divider>
           <el-form-item label="页面地址（HTTP）">
-            <el-input
-              v-model="imStore.client.url_host.value"
-              type="text"
-              autocomplete="off"
-            />
+            <el-input v-model="imStore.client.url_host.value" type="text" autocomplete="off" />
           </el-form-item>
           <el-form-item label="返回按钮">
-            <el-select
-              v-model="imStore.client.back_btn.value"
-              class="m-2"
-              placeholder="选择按钮位置"
-              size="large"
-            >
-              <el-option
-                v-for="(item, index) in imStore.app.back_btns.value"
-                :key="index"
-                :label="index"
-                :value="item"
-              />
+            <el-select v-model="imStore.client.back_btn.value" class="m-2" placeholder="选择按钮位置" size="large">
+              <el-option v-for="(item, index) in imStore.app.back_btns.value" :key="index" :label="index" :value="item" />
             </el-select>
           </el-form-item>
-          <el-popconfirm
-            confirm-button-text="是"
-            cancel-button-text="否"
-            title="重置为默认值?"
-            @confirm="reloadStore('client')"
-          >
+          <el-popconfirm confirm-button-text="是" cancel-button-text="否" title="重置为默认值?" @confirm="reloadStore('client')">
             <template #reference>
               <el-button>重置选项</el-button>
             </template>
@@ -255,12 +181,7 @@
     <el-row class="fxy-footer">
       <el-col :span="16">
         <el-button type="success" @click="reloadPage">刷新页面</el-button>
-        <el-popconfirm
-          confirm-button-text="是"
-          cancel-button-text="否"
-          title="重置为默认值?"
-          @confirm="reloadStore()"
-        >
+        <el-popconfirm confirm-button-text="是" cancel-button-text="否" title="重置为默认值?" @confirm="reloadStore()">
           <template #reference>
             <el-button>全部重置</el-button>
           </template>
@@ -269,22 +190,12 @@
         <el-button @click="doView.jump('/')">返回首页</el-button>
       </el-col>
       <el-col :span="8" class="op-right">
-        <el-popconfirm
-          confirm-button-text="是"
-          cancel-button-text="否"
-          title="重启应用程序?"
-          @confirm="restartApp"
-        >
+        <el-popconfirm confirm-button-text="是" cancel-button-text="否" title="重启应用程序?" @confirm="restartApp">
           <template #reference>
             <el-button type="warning">重启应用</el-button>
           </template>
         </el-popconfirm>
-        <el-popconfirm
-          confirm-button-text="是"
-          cancel-button-text="否"
-          title="关闭应用程序?"
-          @confirm="exitApp"
-        >
+        <el-popconfirm confirm-button-text="是" cancel-button-text="否" title="关闭应用程序?" @confirm="exitApp">
           <template #reference>
             <el-button type="danger">退出应用</el-button>
           </template>

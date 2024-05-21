@@ -72,10 +72,7 @@ export function isArray(data: any): boolean {
 /** 校验对象 */
 export function isObject(data: any): boolean {
   // 初始化变量
-  return (
-    $.isPlainObject(data) ||
-    Object.prototype.toString.call(data) == "[object Arguments]"
-  )
+  return $.isPlainObject(data) || Object.prototype.toString.call(data) == "[object Arguments]"
 }
 /** 校验数组或对象 */
 export function isAorO(data: any): boolean {

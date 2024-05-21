@@ -1,20 +1,12 @@
 <template>
   <div class="fxy-layout">
     <el-row class="fxy-panel" :gutter="20">
-      <el-col
-        v-for="(item, index) in list"
-        :key="index"
-        :xs="24"
-        :sm="12"
-        :md="6"
-      >
+      <el-col v-for="(item, index) in list" :key="index" :xs="24" :sm="12" :md="6">
         <el-card class="box-card">
           <template #header>
             <div class="title">
               <span>{{ item.title }}</span>
-              <el-button type="success" plain @click="doView.jump(item.url)"
-                >跳转页面</el-button
-              >
+              <el-button type="success" plain @click="doView.jump(item.url)">跳转页面</el-button>
             </div>
           </template>
           <div>
@@ -30,22 +22,12 @@
         <el-button @click="doView.jump('/')">返回首页</el-button>
       </el-col>
       <el-col :span="8" class="op-right">
-        <el-popconfirm
-          confirm-button-text="是"
-          cancel-button-text="否"
-          title="重启应用程序?"
-          @confirm="restartApp"
-        >
+        <el-popconfirm confirm-button-text="是" cancel-button-text="否" title="重启应用程序?" @confirm="restartApp">
           <template #reference>
             <el-button type="warning">重启应用</el-button>
           </template>
         </el-popconfirm>
-        <el-popconfirm
-          confirm-button-text="是"
-          cancel-button-text="否"
-          title="关闭应用程序?"
-          @confirm="exitApp"
-        >
+        <el-popconfirm confirm-button-text="是" cancel-button-text="否" title="关闭应用程序?" @confirm="exitApp">
           <template #reference>
             <el-button type="danger">退出应用</el-button>
           </template>

@@ -53,15 +53,7 @@ export const doParam = {
     // 配置数据
     base[name] = toRef(data)
     // 监听数据
-    watch(
-      base[name],
-      (data) =>
-        localStorage.setItem(
-          name,
-          !isString(data) ? JSON.stringify(data) : String(data)
-        ),
-      { deep: true }
-    )
+    watch(base[name], (data) => localStorage.setItem(name, !isString(data) ? JSON.stringify(data) : String(data)), { deep: true })
   },
   /** 处理枚举 */
   enum: function (index: any, enums: any): void {
@@ -75,12 +67,7 @@ export const doParam = {
 /** 视图模块 */
 export const doView = {
   /** 计算缩放 */
-  scale: function (
-    width: number,
-    height: number,
-    boxW = $("#app").width(),
-    boxH = $("#app").height()
-  ): string {
+  scale: function (width: number, height: number, boxW = $("#app").width(), boxH = $("#app").height()): string {
     // 定义宽高
     !boxW && (boxW = width)
     !boxH && (boxH = height)
