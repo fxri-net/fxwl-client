@@ -258,6 +258,7 @@ function exitApp(): void {
   doNative.quit()
 }
 </script>
+
 <style lang="scss" scoped>
 .el-tabs--border-card > .el-tabs__content {
   padding: 0 15px;
