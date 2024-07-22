@@ -1,14 +1,3 @@
-<template>
-  <div class="fxy-layout">
-    <div class="fxy-header">
-      <div class="back" :style="imStore.client.back_btn.value" @click="leavePage"></div>
-    </div>
-    <div class="fxy-panel">
-      <webview id="box" class="box" :src="imStore.client.url_host.value"></webview>
-    </div>
-  </div>
-</template>
-
 <script lang="ts" setup>
 import { imStore } from "@/libs/base"
 import { doView } from "@/libs/module"
@@ -20,6 +9,17 @@ function leavePage(): void {
   doView.jump("/")
 }
 </script>
+
+<template>
+  <div class="fxy-layout">
+    <div class="fxy-header">
+      <div class="back" :style="imStore.client.back_btn.value" @click="leavePage"></div>
+    </div>
+    <div class="fxy-panel">
+      <webview id="box" class="box" :src="imStore.client.url_host.value"></webview>
+    </div>
+  </div>
+</template>
 
 <style lang="scss" scoped>
 .fxy-layout {

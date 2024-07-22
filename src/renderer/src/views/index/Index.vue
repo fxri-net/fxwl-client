@@ -1,3 +1,38 @@
+<script lang="ts" setup>
+import { doView } from "@/libs/module"
+// 初始化变量
+const list = ref([
+  {
+    title: "配置项",
+    url: "/config"
+  },
+  {
+    title: "客户端",
+    url: "/client/index"
+  }
+])
+// 清理缓存
+function cleanCache(): void {
+  // 清空参数
+  imApp.param.value = {}
+  imView.deploy.value = {}
+  // 刷新页面
+  reloadPage()
+}
+// 刷新页面
+function reloadPage(): void {
+  window.location.reload()
+}
+// 重启应用
+function restartApp(): void {
+  doNative.restart()
+}
+// 退出应用
+function exitApp(): void {
+  doNative.quit()
+}
+</script>
+
 <template>
   <div class="fxy-layout">
     <el-row class="fxy-panel" :gutter="20">
@@ -36,41 +71,6 @@
     </el-row>
   </div>
 </template>
-
-<script lang="ts" setup>
-import { doView } from "@/libs/module"
-// 初始化变量
-const list = ref([
-  {
-    title: "配置项",
-    url: "/config"
-  },
-  {
-    title: "客户端",
-    url: "/client/index"
-  }
-])
-// 清理缓存
-function cleanCache(): void {
-  // 清空参数
-  imApp.param.value = {}
-  imView.deploy.value = {}
-  // 刷新页面
-  reloadPage()
-}
-// 刷新页面
-function reloadPage(): void {
-  window.location.reload()
-}
-// 重启应用
-function restartApp(): void {
-  doNative.restart()
-}
-// 退出应用
-function exitApp(): void {
-  doNative.quit()
-}
-</script>
 
 <style lang="scss" scoped>
 .fxy-panel {

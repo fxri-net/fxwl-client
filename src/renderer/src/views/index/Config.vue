@@ -1,3 +1,58 @@
+<script lang="ts" setup>
+import { imApp, imStore, imView } from "@/libs/base"
+import { doView } from "@/libs/module"
+import store from "@/utils/store"
+// 配置索引
+function tabChange(name: any): void {
+  imStore.app.panel_index.value = name
+}
+// 刷新存储
+function reloadStore(name?: "app" | "panel" | "client"): void {
+  if (name != undefined) {
+    store[name].store().$reset()
+    // 刷新页面
+    reloadPage()
+    return
+  }
+  // 重置数据
+  $.each(imStore, function (key) {
+    store[key].store().$reset()
+  })
+  // 刷新页面
+  reloadPage()
+}
+// 选择目录
+async function chooseDir(): Promise<void> {
+  const data = await doNative.openFile({
+    title: "选择目录",
+    properties: ["openDirectory"]
+  })
+  if (!isBlank(data)) {
+    imStore.panel.server.value.dir = data
+  }
+}
+// 清理缓存
+function cleanCache(): void {
+  // 清空参数
+  imApp.param.value = {}
+  imView.deploy.value = {}
+  // 刷新页面
+  reloadPage()
+}
+// 刷新页面
+function reloadPage(): void {
+  window.location.reload()
+}
+// 重启应用
+function restartApp(): void {
+  doNative.restart()
+}
+// 退出应用
+function exitApp(): void {
+  doNative.quit()
+}
+</script>
+
 <template>
   <div class="fxy-layout">
     <el-form class="fxy-panel" label-position="top">
@@ -204,60 +259,6 @@
     </el-row>
   </div>
 </template>
-<script lang="ts" setup>
-import { imApp, imStore, imView } from "@/libs/base"
-import { doView } from "@/libs/module"
-import store from "@/utils/store"
-// 配置索引
-function tabChange(name: any): void {
-  imStore.app.panel_index.value = name
-}
-// 刷新存储
-function reloadStore(name?: "app" | "panel" | "client"): void {
-  if (name != undefined) {
-    store[name].store().$reset()
-    // 刷新页面
-    reloadPage()
-    return
-  }
-  // 重置数据
-  $.each(imStore, function (key) {
-    store[key].store().$reset()
-  })
-  // 刷新页面
-  reloadPage()
-}
-// 选择目录
-async function chooseDir(): Promise<void> {
-  const data = await doNative.openFile({
-    title: "选择目录",
-    properties: ["openDirectory"]
-  })
-  if (!isBlank(data)) {
-    imStore.panel.server.value.dir = data
-  }
-}
-// 清理缓存
-function cleanCache(): void {
-  // 清空参数
-  imApp.param.value = {}
-  imView.deploy.value = {}
-  // 刷新页面
-  reloadPage()
-}
-// 刷新页面
-function reloadPage(): void {
-  window.location.reload()
-}
-// 重启应用
-function restartApp(): void {
-  doNative.restart()
-}
-// 退出应用
-function exitApp(): void {
-  doNative.quit()
-}
-</script>
 
 <style lang="scss" scoped>
 .el-tabs--border-card > .el-tabs__content {

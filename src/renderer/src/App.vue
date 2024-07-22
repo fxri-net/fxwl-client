@@ -1,7 +1,3 @@
-<template>
-  <router-view></router-view>
-</template>
-
 <script lang="ts" setup>
 import store from "@/utils/store"
 import { storeToRefs } from "pinia"
@@ -34,3 +30,7 @@ $.each(imStore, function (key) {
   )
 })
 </script>
+
+<template>
+  <router-view></router-view>
+</template>
