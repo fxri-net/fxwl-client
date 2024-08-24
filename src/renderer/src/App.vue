@@ -1,4 +1,4 @@
-<script lang="ts" setup>
+<script setup lang="ts">
 import store from "@/utils/store"
 import { storeToRefs } from "pinia"
 // 终端数据

@@ -1,4 +1,4 @@
-<script lang="ts" setup>
+<script setup lang="ts">
 import { doView } from "@/libs/module"
 // 初始化变量
 const list = ref([

@@ -1,4 +1,4 @@
-<script lang="ts" setup>
+<script setup lang="ts">
 import { imStore } from "@/libs/base"
 import { doView } from "@/libs/module"
 // 离开页面

@@ -1,4 +1,4 @@
-<script lang="ts" setup>
+<script setup lang="ts">
 import { imApp, imStore, imView } from "@/libs/base"
 import { doView } from "@/libs/module"
 import store from "@/utils/store"
