@@ -1,5 +1,5 @@
 appId: net.fxri.fxwl-client
-productName: 方弦物联：展示终端
+productName: 方弦物联：桌面终端
 copyright: Copyright © 2023 方弦研究所. All rights reserved.
 directories:
   buildResources: build
