@@ -59,7 +59,7 @@ const router = createRouter({
 // 路由跳转前
 router.beforeEach((to, _from, next) => {
   // 配置标题
-  document.title = String(to.meta.title) + " - " + imStore.app.title.value
+  document.title = String(to.meta.title) + " - " + imStore.app.title
   // 跳转下一页
   next()
 })
@@ -74,7 +74,7 @@ router.afterEach(() => {
   // 初始化页面
   if (!imApp.init) {
     // 跳转默认页面
-    doView.jump(imStore.app.url_default.value)
+    doView.jump(imStore.app.url_default)
     // 完成初始化
     imApp.init = true
   }

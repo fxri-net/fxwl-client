@@ -20,16 +20,14 @@ export const imApp: {
   clock: ref(""),
   param: ref({})
 }
-/** 监听应用参数 */
-doParam.watch("param", imApp)
 /** 存储 */
 export const imStore = {
   /** 应用 */
-  app: toRefs(reactive(store.app.data)),
+  app: store.app.store,
   /** 面板 */
-  panel: toRefs(reactive(store.panel.data)),
+  panel: store.panel.store,
   /** 客户端 */
-  client: toRefs(reactive(store.client.data))
+  client: store.client.store
 }
 /** 视图 */
 export const imView: {
@@ -43,5 +41,31 @@ export const imView: {
   scale: ref(""),
   deploy: ref({})
 }
-/** 监听数据部署 */
-doParam.watch("deploy", imView)
+// 监听应用参数
+doParam.watch("param", imApp.param)
+// 监听数据部署
+doParam.watch("deploy", imView.deploy)
+// 配置联动存储
+$.each(imStore, function (key) {
+  // 本地数据
+  window.doNative != undefined &&
+    doNative.store("get", key).then(function (res) {
+      if (res == undefined) {
+        doData.merge("ref|mix", imStore[key], store[key].data)
+      }
+      $.each(res, function (key2, value2) {
+        imStore[key][key2].value = value2
+      })
+    })
+  // 监听存储
+  watch(
+    imStore[key],
+    (data) => {
+      window.doNative != undefined &&
+        doNative.store("set", {
+          [key]: JSON.parse(JSON.stringify(data))
+        })
+    },
+    { deep: true }
+  )
+})

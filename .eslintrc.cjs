@@ -21,7 +21,9 @@ module.exports = {
     "@typescript-eslint/no-var-requires": "off",
     "vue/require-default-prop": "off",
     "vue/multi-word-component-names": "off",
-    "prettier/prettier": 0
+    "prettier/prettier": 0,
+    "switch-colon": 0,
+    "no-fallthrough": 0
   },
   overrides: [
     {

@@ -11,6 +11,7 @@ declare global {
   const customRef: typeof import('vue')['customRef']
   const defineAsyncComponent: typeof import('vue')['defineAsyncComponent']
   const defineComponent: typeof import('vue')['defineComponent']
+  const doData: typeof import('./libs/module')['doData']
   const doInfo: typeof import('./libs/module')['doInfo']
   const doParam: typeof import('./libs/module')['doParam']
   const doView: typeof import('./libs/module')['doView']

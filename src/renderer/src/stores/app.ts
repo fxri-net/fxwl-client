@@ -3,8 +3,7 @@
 // +----------------------------------------------------------------------
 // | Category 方弦研究所
 // +----------------------------------------------------------------------
-import { defineStore } from "pinia"
-// 定义数据
+/** 数据 */
 const data = {
   /** 标题 */
   title: "方弦物联",
@@ -28,9 +27,9 @@ const data = {
     左下: "left: 0; right: auto; top: auto; bottom: 0;"
   }
 }
-// 定义存储
-const store = defineStore("app", {
-  state: () => JSON.parse(JSON.stringify(data)),
-  persist: true
-})
-export default { store: store, data: data }
+/** 存储 */
+const store = reactive(doData.clone(data) as typeof data)
+// 监听存储
+doParam.watch("app", store)
+// 导出存储
+export default { data, store }
