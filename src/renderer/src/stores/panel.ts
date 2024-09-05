@@ -4,58 +4,39 @@
 // | Category 方弦研究所
 // +----------------------------------------------------------------------
 /** 数据 */
-const data: {
+const data = {
   /** 窗口 */
   window: {
     /** 宽度 */
-    width: number
+    width: 1280,
     /** 高度 */
-    height: number
+    height: 720,
     /** 左边距 */
-    x: number | string
+    x: "center" as number | string,
     /** 上边距 */
-    y: number | string
+    y: "center" as number | string,
     /** 全屏 */
-    fullscreen: boolean
+    fullscreen: false,
     /** 无边框 */
-    frame: boolean
+    frame: false,
     /** 置顶 */
-    isTop: boolean
+    isTop: false,
     /** 强制置顶 */
-    isFocus: boolean
+    isFocus: false,
     /** 开机自启 */
-    startup: boolean
+    startup: false,
     /** HTTP缓存 */
-    http_cache: boolean
-  }
+    http_cache: true
+  },
   /** 服务器 */
   server: {
     /** 开关 */
-    switch: boolean
-    /** 目录 */
-    dir: string
-    /** 端口 */
-    port: string
-    /** 端口占用提示 */
-    port_prompt: boolean
-  }
-} = {
-  window: {
-    width: 1280,
-    height: 720,
-    x: "center",
-    y: "center",
-    fullscreen: false,
-    frame: false,
-    isTop: false,
-    isFocus: false,
-    startup: false,
-    http_cache: true
-  },
-  server: {
     switch: false,
+    /** 目录 */
     dir: "website",
+    /** 端口 */
     port: "2602",
+    /** 端口占用提示 */
     port_prompt: false
   }
 }
