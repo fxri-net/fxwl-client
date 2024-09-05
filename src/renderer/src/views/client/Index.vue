@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { imStore } from "@/libs/base"
 import { doView } from "@/libs/module"
-// 离开页面
-function leavePage(): void {
+/** 离开页面 */
+function leavePage() {
   // 移除webview标签
   $(".fxy-panel .box").remove()
   // 跳转到首页

@@ -2,12 +2,12 @@
 import { imApp, imStore, imView } from "@/libs/base"
 import { doView } from "@/libs/module"
 import store from "@/utils/store"
-// 配置索引
-function tabChange(name: any): void {
+/** 配置索引 */
+function tabChange(name: any) {
   imStore.app.panel_index = name
 }
-// 刷新存储
-function reloadStore(name?: "app" | "panel" | "client"): void {
+/** 刷新存储 */
+function reloadStore(name?: typeof imStore.app.store_name) {
   if (name != undefined) {
     doData.merge("ref|mix", imStore[name], store[name].data)
     // 刷新页面
@@ -21,8 +21,8 @@ function reloadStore(name?: "app" | "panel" | "client"): void {
   // 刷新页面
   reloadPage()
 }
-// 选择目录
-async function chooseDir(): Promise<void> {
+/** 选择目录 */
+async function chooseDir() {
   const data = await doNative.openFile({
     title: "选择目录",
     properties: ["openDirectory"]
@@ -31,24 +31,24 @@ async function chooseDir(): Promise<void> {
     imStore.panel.server.dir = data
   }
 }
-// 清理缓存
-function cleanCache(): void {
+/** 清理缓存 */
+function cleanCache() {
   // 清空参数
   imApp.param.value = {}
   imView.deploy.value = {}
   // 刷新页面
   reloadPage()
 }
-// 刷新页面
-function reloadPage(): void {
+/** 刷新页面 */
+function reloadPage() {
   window.location.reload()
 }
-// 重启应用
-function restartApp(): void {
+/** 重启应用 */
+function restartApp() {
   doNative.restart()
 }
-// 退出应用
-function exitApp(): void {
+/** 退出应用 */
+function exitApp() {
   doNative.quit()
 }
 </script>

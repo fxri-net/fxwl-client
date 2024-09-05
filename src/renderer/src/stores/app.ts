@@ -9,6 +9,8 @@ const data = {
   title: "方弦物联",
   /** 调试模式 */
   debug: false,
+  /** 存储名称 */
+  store_name: "app" as "app" | "client" | "panel",
   /** 默认页面 */
   url_default: "/",
   /** 页面列表 */

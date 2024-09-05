@@ -2,33 +2,27 @@
 import { doView } from "@/libs/module"
 // 初始化变量
 const list = ref([
-  {
-    title: "配置项",
-    url: "/config"
-  },
-  {
-    title: "客户端",
-    url: "/client/index"
-  }
+  { title: "配置项", url: "/config" },
+  { title: "客户端", url: "/client/index" }
 ])
-// 清理缓存
-function cleanCache(): void {
+/** 清理缓存 */
+function cleanCache() {
   // 清空参数
   imApp.param.value = {}
   imView.deploy.value = {}
   // 刷新页面
   reloadPage()
 }
-// 刷新页面
-function reloadPage(): void {
+/** 刷新页面 */
+function reloadPage() {
   window.location.reload()
 }
-// 重启应用
-function restartApp(): void {
+/** 重启应用 */
+function restartApp() {
   doNative.restart()
 }
-// 退出应用
-function exitApp(): void {
+/** 退出应用 */
+function exitApp() {
   doNative.quit()
 }
 </script>

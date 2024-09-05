@@ -26,7 +26,7 @@ export function isNumeric(data: any): boolean {
 const config: { window: any } = {
   window: doBase.store.get("panel.window")
 }
-// 创建窗口
+/** 创建窗口 */
 function createWindow(): BrowserWindow {
   // 疏理配置
   config.window?.width != undefined && (config.window.width -= 0)
