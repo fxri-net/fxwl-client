@@ -118,14 +118,32 @@ export const doData = {
             break
           // 数组
           case "[object Array]":
-          // 对象
-          case "[object Object]":
             // 检查是否json并解析
             if (isJson(args[i][cur])) args[i][cur] = JSON.parse(args[i][cur])
             // 判断类型是否一致
             if (Object.prototype.toString.call(acc[cur]) !== Object.prototype.toString.call(args[i][cur])) break
             // 克隆数据
             acc[cur] = doData.clone(args[i][cur])
+            break
+          // 对象
+          case "[object Object]":
+            // 检查是否json并解析
+            if (isJson(args[i][cur])) args[i][cur] = JSON.parse(args[i][cur])
+            // 判断类型是否一致
+            if (Object.prototype.toString.call(acc[cur]) !== Object.prototype.toString.call(args[i][cur])) break
+            // 匹配选项2
+            switch (option[1]) {
+              // 默认
+              default:
+              // 覆盖
+              case "cover":
+                acc[cur] = doData.clone(args[i][cur])
+                break
+              // 融合
+              case "mix":
+                acc[cur] = doData.merge("deep|mix", acc[cur], args[i][cur])
+                break
+            }
             break
         }
         return acc
