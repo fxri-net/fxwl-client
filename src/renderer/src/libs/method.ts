@@ -136,5 +136,5 @@ export function isMoney(data: any): boolean {
 /** 校验URL */
 export function isUrl(data: any): boolean {
   // 初始化变量
-  return data.indexOf("http") === 0
+  return !!data.match(/^(https?|:?\/\/)/)
 }
