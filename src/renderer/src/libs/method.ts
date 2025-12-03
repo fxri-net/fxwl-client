@@ -102,7 +102,7 @@ export function isString(data: any): boolean {
   return typeof data == "string"
 }
 /** 校验数字 */
-export function isNumeric(data: any): boolean {
+export function isNumber(data: any): boolean {
   // 初始化变量
   switch (typeof data) {
     case "string":

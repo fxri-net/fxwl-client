@@ -9,7 +9,7 @@ import { electronApp, optimizer, is } from "@electron-toolkit/utils"
 import icon from "../../resources/icon_mini.png?asset"
 import { doBase, doEvent } from "./base"
 /** 校验数字 */
-export function isNumeric(data: any): boolean {
+export function isNumber(data: any): boolean {
   // 初始化变量
   switch (typeof data) {
     case "string":
@@ -38,9 +38,9 @@ function createWindow(): BrowserWindow {
     // 窗口高度
     height: config.window?.height > 0 ? config.window.height - 0 : 720,
     // 窗口左边距
-    x: isNumeric(config.window?.x) ? config.window.x - 0 : undefined,
+    x: isNumber(config.window?.x) ? config.window.x - 0 : undefined,
     // 窗口上边距
-    y: isNumeric(config.window?.y) ? config.window.y - 0 : undefined,
+    y: isNumber(config.window?.y) ? config.window.y - 0 : undefined,
     // 窗口置顶
     alwaysOnTop: typeof config.window?.isTop == "boolean" ? config.window.isTop : false,
     // 窗口全屏

@@ -34,7 +34,7 @@ declare global {
   const isMobile: typeof import('./libs/method')['isMobile']
   const isMoney: typeof import('./libs/method')['isMoney']
   const isNull: typeof import('./libs/method')['isNull']
-  const isNumeric: typeof import('./libs/method')['isNumeric']
+  const isNumber: typeof import('./libs/method')['isNumber']
   const isObject: typeof import('./libs/method')['isObject']
   const isProxy: typeof import('vue')['isProxy']
   const isReactive: typeof import('vue')['isReactive']
