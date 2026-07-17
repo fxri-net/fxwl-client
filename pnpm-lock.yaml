@@ -38,9 +38,6 @@ importers:
       sass:
         specifier: ^1.66.1
         version: 1.101.0
-      scss:
-        specifier: ^0.2.4
-        version: 0.2.4
       vue:
         specifier: ^3.3.4
         version: 3.5.40(typescript@5.9.3)
@@ -2067,10 +2064,6 @@ packages:
     resolution: {integrity: sha512-NuAESUOUMrlIXOfHKzD6bpPu3tYt3xvjNdRIQ+FeT0lNb4K8WR70CaDxhuNguS2XG+GjkyMwOzsN5ZktImfhLA==}
     engines: {node: '>= 0.4'}
 
-  ometa@0.2.2:
-    resolution: {integrity: sha512-LZuoK/yjU3FvrxPjUXUlZ1bavCfBPqauA7fsNdwi+AVhRdyk2IzgP3JRnevvjzQ6fKHdUw8YISshf53FmpHrng==}
-    engines: {node: '>= 0.2.0'}
-
   once@1.4.0:
     resolution: {integrity: sha512-lNaJgI+2Q5URQBkccEKHTQOPaXdUxnZZElQTZY0MFUAuaEqe1E+Nyvgdz/aIyNi6Z9MzO5dv1H8n58/GELp3+w==}
 
@@ -2382,10 +2375,6 @@ packages:
   sax@1.6.0:
     resolution: {integrity: sha512-6R3J5M4AcbtLUdZmRv2SygeVaM7IhrLXu9BmnOGmmACak8fiUtOsYNWUS4uK7upbmHIBbLBeFeI//477BKLBzA==}
     engines: {node: '>=11.0.0'}
-
-  scss@0.2.4:
-    resolution: {integrity: sha512-4u8V87F+Q/upVhUmhPnB4C1R11xojkRkWjExL2v0CX2EXTg18VrKd+9JWoeyCp2VEMdSpJsyAvVU+rVjogh51A==}
-    engines: {node: '>= 0.2.0'}
 
   scule@1.3.0:
     resolution: {integrity: sha512-6FtHJEvt+pVMIB9IBY+IcCJ6Z5f1iQnytgyfKMhDKgmzYG+TeH/wx1y3l27rshSbLiSanrR9ffZDrEsmjlQF2g==}
@@ -4929,8 +4918,6 @@ snapshots:
   object-keys@1.1.1:
     optional: true
 
-  ometa@0.2.2: {}
-
   once@1.4.0:
     dependencies:
       wrappy: 1.0.2
@@ -5217,10 +5204,6 @@ snapshots:
       '@parcel/watcher': 2.5.6
 
   sax@1.6.0: {}
-
-  scss@0.2.4:
-    dependencies:
-      ometa: 0.2.2
 
   scule@1.3.0: {}
 
