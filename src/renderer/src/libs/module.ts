@@ -207,7 +207,7 @@ export const doParam = {
     watch(base, (data) => localStorage.setItem(name, !isString(data) ? JSON.stringify(data) : String(data)), { deep: true })
   },
   /** 处理枚举 */
-  enum: function (index: any, enums: any): void {
+  enum: function (index: any, enums: any): string {
     // 处理枚举
     if (isString(enums)) {
       enums = JSON.parse(enums)
