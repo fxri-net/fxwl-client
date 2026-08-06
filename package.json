@@ -49,7 +49,7 @@
     "@vue/eslint-config-typescript": "^11.0.3",
     "autoprefixer": "^10.4.15",
     "electron": "^26.1.0",
-    "electron-builder": "^24.6.4",
+    "electron-builder": "^26.15.3",
     "electron-vite": "^1.0.27",
     "eslint": "^8.48.0",
     "eslint-plugin-vue": "^9.17.0",
