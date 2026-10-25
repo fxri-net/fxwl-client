@@ -1,26 +1,27 @@
 <script setup lang="ts">
 import { STORE_SCOPES } from "@shared/defines"
-import { imApp, imStore, imView } from "@/libs/base"
+import type { StoreScope } from "@shared/defines"
+import { imApp, imView } from "@/libs/base"
 import { isBlank } from "@/libs/is"
 import { doView } from "@/libs/nav"
-import { doData } from "@/libs/obj"
-import store from "@/utils/store"
+import { imScope, imStore } from "@/stores"
+import { useAppStore } from "@/stores/app"
+/** 应用存储 */
+const appStore = useAppStore()
 /** 配置索引 */
 function tabChange(name: any) {
   imStore.app.panel_index = name
 }
 /** 刷新存储 */
-function reloadStore(name?: typeof imStore.app.store_name) {
+function reloadStore(name?: StoreScope) {
   if (name != undefined) {
-    doData.merge("ref|mix", imStore[name], store[name].data)
-    // 刷新页面
-    reloadPage()
-    return
+    imScope[name]().reset()
+  } else {
+    // 全量回填出厂值
+    STORE_SCOPES.forEach(function (scope) {
+      imScope[scope]().reset()
+    })
   }
-  // 重置数据
-  STORE_SCOPES.forEach(function (scope) {
-    doData.merge("ref|mix", imStore[scope], store[scope].data)
-  })
   // 刷新页面
   reloadPage()
 }
@@ -67,7 +68,7 @@ function exitApp() {
           </el-form-item>
           <el-form-item label="默认页面">
             <el-select v-model="imStore.app.url_default" class="m-2" placeholder="选择默认页面" size="large">
-              <el-option v-for="(item, index) in imStore.app.url_list" :key="index" :label="index" :value="item" />
+              <el-option v-for="(item, index) in appStore.enums.url_list" :key="index" :label="index" :value="item" />
             </el-select>
           </el-form-item>
           <el-popconfirm confirm-button-text="是" cancel-button-text="否" title="重置为默认值?" @confirm="reloadStore('app')">
@@ -215,7 +216,7 @@ function exitApp() {
           </el-form-item>
           <el-form-item label="返回按钮">
             <el-select v-model="imStore.client.back_btn" class="m-2" placeholder="选择按钮位置" size="large">
-              <el-option v-for="(item, index) in imStore.app.back_btns" :key="index" :label="index" :value="item" />
+              <el-option v-for="(item, index) in appStore.enums.back_btns" :key="index" :label="index" :value="item" />
             </el-select>
           </el-form-item>
           <el-popconfirm confirm-button-text="是" cancel-button-text="否" title="重置为默认值?" @confirm="reloadStore('client')">

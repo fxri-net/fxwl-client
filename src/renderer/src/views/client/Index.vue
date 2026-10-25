@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { imStore } from "@/libs/base"
 import { doView } from "@/libs/nav"
+import { imStore } from "@/stores"
 /** 离开页面 */
 function leavePage() {
   // 移除webview标签

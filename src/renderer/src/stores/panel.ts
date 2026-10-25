@@ -4,10 +4,10 @@
 // | Category 方弦研究所
 // +----------------------------------------------------------------------
 import { reactive } from "vue"
-import { doParam } from "@/libs/module"
+import { defineStore } from "pinia"
 import { doData } from "@/libs/obj"
-/** 数据 */
-const data = {
+/** 默认数据 */
+const defaults = {
   /** 窗口 */
   window: {
     /** 宽度 */
@@ -43,9 +43,14 @@ const data = {
     port_prompt: false
   }
 }
-/** 存储 */
-const store = reactive(doData.clone(data) as typeof data)
-// 监听存储
-doParam.watch("panel", store)
-// 导出存储
-export default { data, store }
+/** 面板存储 */
+export const usePanelStore = defineStore("panel", function () {
+  /** 数据集合 */
+  const datas = reactive(doData.clone(defaults) as typeof defaults)
+  /** 重置数据 */
+  function reset(): void {
+    // 回填出厂值
+    doData.merge("ref|mix", datas, defaults)
+  }
+  return { datas, reset }
+})

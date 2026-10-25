@@ -12,8 +12,9 @@ import {
   useRouter,
   useRoute
 } from "vue-router"
-import { imApp, imStore, imView } from "@/libs/base"
+import { imApp, imView } from "@/libs/base"
 import { doView } from "@/libs/nav"
+import { imStore } from "@/stores"
 // 路由记录
 const routes: Array<RouteRecordRaw> = [
   {

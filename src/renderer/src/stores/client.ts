@@ -4,18 +4,23 @@
 // | Category 方弦研究所
 // +----------------------------------------------------------------------
 import { reactive } from "vue"
-import { doParam } from "@/libs/module"
+import { defineStore } from "pinia"
 import { doData } from "@/libs/obj"
-/** 数据 */
-const data = {
+/** 默认数据 */
+const defaults = {
   /** 页面地址 */
   url_host: "http://127.0.0.1:2602",
   /** 返回按钮 */
   back_btn: ""
 }
-/** 存储 */
-const store = reactive(doData.clone(data) as typeof data)
-// 监听存储
-doParam.watch("client", store)
-// 导出存储
-export default { data, store }
+/** 客户端存储 */
+export const useClientStore = defineStore("client", function () {
+  /** 数据集合 */
+  const datas = reactive(doData.clone(defaults) as typeof defaults)
+  /** 重置数据 */
+  function reset(): void {
+    // 回填出厂值
+    doData.merge("ref|mix", datas, defaults)
+  }
+  return { datas, reset }
+})

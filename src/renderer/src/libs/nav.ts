@@ -4,8 +4,9 @@
 // | Category 方弦研究所
 // +----------------------------------------------------------------------
 import type { LocationQueryRaw } from "vue-router"
-import { imStore, imView } from "@/libs/base"
+import { imView } from "@/libs/base"
 import { isUrl } from "@/libs/is"
+import { imStore } from "@/stores"
 /** 视图模块 */
 export const doView = {
   /** 跳转页面 */
