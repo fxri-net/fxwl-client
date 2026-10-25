@@ -36,7 +36,7 @@ export interface Panel {
   /** 分组集合 */
   groups: Group[]
 }
-/** 返回按钮位置选项 */
+/** 导航位置选项 */
 const NAV_ANCHOR_OPTIONS: Record<string, string> = {
   "左上（默认）": "top-left",
   右上: "top-right",
@@ -107,7 +107,11 @@ export const CONFIG_PANELS: Panel[] = [
         title: "环境配置",
         rows: [
           [{ label: "页面地址（HTTP）", path: "url_host", type: "text" }],
-          [{ label: "返回按钮", path: "nav.anchor", type: "select", options: NAV_ANCHOR_OPTIONS }]
+          [{ label: "导航位置", path: "nav.anchor", type: "select", options: NAV_ANCHOR_OPTIONS }],
+          [
+            { label: "水平偏移（像素）", path: "nav.offsetX", type: "text", span: 12 },
+            { label: "垂直偏移（像素）", path: "nav.offsetY", type: "text", span: 12, gap: true }
+          ]
         ]
       }
     ]

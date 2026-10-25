@@ -1,8 +1,20 @@
 <script setup lang="ts">
-import { computed, reactive } from "vue"
+import { computed, reactive, ref } from "vue"
 import { CLIENT_PARTITION } from "@shared/defines"
 import { doView } from "@/libs/nav"
 import { imStore } from "@/stores"
+/** 内嵌页元素能力 */
+interface Guest {
+  /** 是否可后退 */
+  canGoBack: () => boolean
+  /** 后退 */
+  goBack: () => void
+}
+/** 元素集合 */
+const elems = {
+  /** 内嵌页元素 */
+  box: ref<Guest | null>(null)
+}
 /** 数据集合 */
 const datas = reactive({
   /** 是否正在加载 */
@@ -10,7 +22,9 @@ const datas = reactive({
   /** 加载失败信息，空串表示无错误 */
   error: "",
   /** 重建计数，递增后强制重建内嵌页 */
-  rebuild: 0
+  rebuild: 0,
+  /** 内嵌页当前是否可后退 */
+  canBack: false
 })
 /** 内嵌页键值，宿主地址或重建计数变化时重建 */
 const boxKey = computed(function () {
@@ -41,7 +55,18 @@ function retry() {
   // 递增键值让失败的页面连同 guest 一起被销毁重建
   datas.error = ""
   datas.loading = true
+  datas.canBack = false
   datas.rebuild++
+}
+/** 同步后退可用状态 */
+function syncBack() {
+  /** 内嵌页元素 */
+  const box = elems.box.value
+  datas.canBack = box != null && box.canGoBack()
+}
+/** 内嵌页后退 */
+function goBack() {
+  elems.box.value?.goBack()
 }
 /** 离开页面 */
 function leavePage() {
@@ -52,19 +77,20 @@ function leavePage() {
 
 <template>
   <div class="fxy-layout">
-    <div class="fxy-header">
-      <div class="back" @click="leavePage"></div>
-    </div>
     <div class="fxy-panel">
       <webview
         v-if="canLoad"
         :key="boxKey"
+        :ref="elems.box"
         class="box"
         :partition="CLIENT_PARTITION"
         :src="imStore.client.url_host"
+        @dom-ready="syncBack"
         @did-start-loading="startLoad"
         @did-stop-loading="stopLoad"
         @did-fail-load="failLoad"
+        @did-navigate="syncBack"
+        @did-navigate-in-page="syncBack"
       ></webview>
       <!-- 状态面板：未配置、加载中、加载失败三种情形 -->
       <div v-if="!canLoad || datas.error != '' || datas.loading" class="state">
@@ -84,6 +110,15 @@ function leavePage() {
         </template>
       </div>
     </div>
+    <NavCapsule
+      :can-back="datas.canBack"
+      :anchor="imStore.client.nav.anchor"
+      :offset-x="imStore.client.nav.offsetX"
+      :offset-y="imStore.client.nav.offsetY"
+      :idle-opacity="imStore.client.nav.idleOpacity"
+      @back="goBack"
+      @exit="leavePage"
+    />
   </div>
 </template>
 
@@ -94,29 +129,6 @@ function leavePage() {
   color: #ffffff;
   cursor: default;
   user-select: none;
-}
-
-.fxy-header {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  z-index: 999;
-}
-
-.fxy-header .back {
-  position: fixed;
-  left: 0;
-  top: 0;
-  width: 160px;
-  height: 80px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.fxy-header .back:hover {
-  background: rgba($color: #fff, $alpha: 0.1);
 }
 
 .fxy-panel {
