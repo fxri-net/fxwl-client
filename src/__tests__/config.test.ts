@@ -4,7 +4,7 @@
 // | Category 方弦研究所
 // +----------------------------------------------------------------------
 import { describe, expect, it } from "vitest"
-import { CONFIG_DEFAULTS, CONFIG_VERSION, doConfig } from "./config"
+import { CONFIG_DEFAULTS, CONFIG_VERSION, doConfig } from "../shared/config"
 
 /** 旧版四角样式 */
 const legacyStyles = {

@@ -4,7 +4,7 @@
 // | Category 方弦研究所
 // +----------------------------------------------------------------------
 import { describe, expect, it } from "vitest"
-import { IPC_CHANNEL, IPC_VALIDATORS } from "./contract"
+import { IPC_CHANNEL, IPC_VALIDATORS } from "../shared/contract"
 
 describe("通道契约", () => {
   it("每个通道常量都有对应校验器", () => {
