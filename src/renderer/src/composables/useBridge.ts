@@ -67,21 +67,26 @@ function saveScope(scope: StoreScope): Promise<void> {
 }
 /**
  * 桥接存储
- * @example useBridge()
+ * @return 水合结果
+ * @example useBridge().then(() => app.mount("#app"))
  */
-export function useBridge(): void {
+export function useBridge(): Promise<void> {
   // 纯浏览器环境没有原生通道
-  if (window.doNative == undefined) return
-  STORE_SCOPES.forEach(function (scope: StoreScope) {
-    // 水合成功后再监听，避免默认值覆盖磁盘配置
-    hydrateScope(scope).then(
-      function () {
-        watchScope(scope)
-      },
-      function (err) {
-        doInfo.message({ type: "error", message: "配置读取失败（" + scope + "），本次修改不会被保存：" + String(err) })
-      }
-    )
+  if (window.doNative == undefined) return Promise.resolve()
+  return Promise.all(
+    STORE_SCOPES.map(function (scope: StoreScope) {
+      // 水合成功后再监听，避免默认值覆盖磁盘配置
+      return hydrateScope(scope).then(
+        function () {
+          watchScope(scope)
+        },
+        function (err) {
+          doInfo.message({ type: "error", message: "配置读取失败（" + scope + "），本次修改不会被保存：" + String(err) })
+        }
+      )
+    })
+  ).then(function () {
+    return
   })
 }
 /**

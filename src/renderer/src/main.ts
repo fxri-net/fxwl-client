@@ -11,9 +11,10 @@ import "@/styles/base.scss"
 const app = createApp(App)
 // 挂载状态管理
 app.use(createPinia())
-// 启动应用
-app.use(router)
 app.use(elementPlus)
-// 接入原生配置
-useBridge()
-app.mount("#app")
+// 接入原生配置，水合完成后再接入路由，保证初始化跳转读到磁盘配置
+useBridge().then(function () {
+  app.use(router)
+  // 启动应用
+  app.mount("#app")
+})

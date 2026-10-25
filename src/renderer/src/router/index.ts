@@ -1,21 +1,26 @@
-/**
- * createRouter 这个为创建路由的方法
- * createWebHashHistory 这个就是vue2中路由的模式，
- *                      这里的是hash模式，这个还可以是createWebHistory等
- * RouteRecordRaw 这个为要添加的路由记录，也可以说是routes的ts类型
- */
-import {
-  createRouter,
-  // createWebHistory,
-  createWebHashHistory,
-  RouteRecordRaw,
-  useRouter,
-  useRoute
-} from "vue-router"
+// +----------------------------------------------------------------------
+// | Author 唐启云 <tqy@fxri.net>
+// +----------------------------------------------------------------------
+// | Category 方弦研究所
+// +----------------------------------------------------------------------
+import { createRouter, createWebHashHistory } from "vue-router"
+import type { RouteRecordRaw } from "vue-router"
 import { imApp, imView } from "@/libs/base"
+import { isUrl } from "@/libs/is"
 import { doView } from "@/libs/nav"
 import { imStore } from "@/stores"
-// 路由记录
+
+declare module "vue-router" {
+  /** 路由元信息 */
+  interface RouteMeta {
+    /** 页面标题 */
+    title?: string
+    /** 是否需要执行初始跳转 */
+    init?: boolean
+  }
+}
+
+/** 路由记录 */
 const routes: Array<RouteRecordRaw> = [
   {
     path: "/:catchAll(.*)",
@@ -24,7 +29,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: "/",
     name: "index",
-    meta: { title: "首页" },
+    meta: { title: "首页", init: true },
     component: () => import("@/views/index/Index.vue")
   },
   {
@@ -40,46 +45,41 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import("@/views/client/Index.vue")
   }
 ]
-// 匹配根路径
-const config: any = {}
-for (const value of routes.reverse()) {
-  // 疏理配置
-  config.path = window.location.pathname
-  config.index = config.path.lastIndexOf(value.path)
-  // 疏理根路径
-  if (config.index !== -1) {
-    config.base = config.path.substring(0, config.index)
-    break
-  }
-}
-// 创建路由
+
+/** 路由器 */
 const router = createRouter({
-  // history: createWebHistory(config.base),
+  // 窗口直接加载本地文件，hash 模式无需 base
   history: createWebHashHistory(),
   routes
 })
+
+// 供业务层发起跳转
+imView.router = router
+
 // 路由跳转前
-router.beforeEach((to, _from, next) => {
-  // 配置标题
-  document.title = String(to.meta.title) + " - " + imStore.app.title
-  // 跳转下一页
-  next()
-})
-// 路由跳转后
-router.afterEach(() => {
-  // 疏理路由器
-  imView.router = useRouter()
-  // 疏理路由
-  const route = useRoute()
-  Object.keys(route.query).forEach(function (key) {
-    imApp.param.value[key] = route.query[key]
-  })
-  // 初始化页面
-  if (!imApp.init) {
-    // 跳转默认页面
-    doView.jump(imStore.app.url_default)
-    // 完成初始化
-    imApp.init = true
+router.beforeEach(function (to) {
+  // 首次进入首页时切到默认页面，仅执行一次
+  if (!to.meta.init || imApp.init) return true
+  imApp.init = true
+  /** 默认页面 */
+  const url = imStore.app.url_default
+  if (!url || url === to.path) return true
+  // 外部链接交给浏览器加载，中断本次应用内导航
+  if (isUrl(url)) {
+    doView.jump(url)
+    return false
   }
+  return url
 })
+
+// 路由跳转后
+router.afterEach(function (to) {
+  // 配置标题
+  document.title = (to.meta.title ? to.meta.title + " - " : "") + imStore.app.title
+  // 收集页面参数
+  Object.keys(to.query).forEach(function (key) {
+    imApp.param.value[key] = to.query[key]
+  })
+})
+
 export default router
