@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onBeforeUnmount, onMounted, reactive, watch } from "vue"
+import { computed, onBeforeUnmount, reactive, watch } from "vue"
 import type { NavAnchor } from "@shared/defines"
 /** 定义集合 */
 interface Defines {
@@ -22,8 +22,8 @@ const emit = defineEmits<{
   /** 返回首页 */
   exit: []
 }>()
-/** 静止多久后隐藏（毫秒） */
-const IDLE_DELAY = 3000
+/** 快捷键触发后的亮相时长（毫秒） */
+const FLASH_DELAY = 3000
 /** 热区相对胶囊外扩的边距（像素） */
 const HOTSPOT_PAD = 10
 /** 隐藏时向锚点侧收起的距离（像素） */
@@ -54,12 +54,10 @@ function enterActive() {
   window.clearTimeout(timer)
   datas.active = true
 }
-/** 离开交互：静止一段时间后隐藏 */
+/** 离开交互：立即隐藏，不留滞留 */
 function leaveActive() {
   window.clearTimeout(timer)
-  timer = window.setTimeout(function () {
-    datas.active = false
-  }, IDLE_DELAY)
+  datas.active = false
 }
 watch(
   function () {
@@ -68,14 +66,11 @@ watch(
   function () {
     // 快捷键触发后短暂亮相，让用户知道导航仍在原处
     enterActive()
-    leaveActive()
+    timer = window.setTimeout(function () {
+      datas.active = false
+    }, FLASH_DELAY)
   }
 )
-onMounted(function () {
-  // 首次进入完整显示，作为一次性引导
-  enterActive()
-  leaveActive()
-})
 onBeforeUnmount(function () {
   window.clearTimeout(timer)
 })
@@ -109,10 +104,9 @@ onBeforeUnmount(function () {
   align-items: center;
   gap: 2px;
   padding: 4px;
-  border: 1px solid var(--el-color-info-light-8);
-  border-radius: 999px;
-  background: var(--fx-color-bg);
-  box-shadow: 0 4px 16px rgba($color: #000000, $alpha: 0.18);
+  border: 1px solid rgba($color: #ffffff, $alpha: 0.16);
+  background: rgba($color: #000000, $alpha: 0.55);
+  box-shadow: 0 4px 16px rgba($color: #000000, $alpha: 0.28);
   opacity: 0;
   pointer-events: none;
   transform: translate(var(--nav-shift-x, 0), var(--nav-shift-y, 0));
@@ -132,9 +126,8 @@ onBeforeUnmount(function () {
   min-height: 40px;
   padding: 0 var(--fx-space-md);
   border: 0;
-  border-radius: 999px;
   background: transparent;
-  color: var(--fx-color-text);
+  color: #ffffff;
   font-family: inherit;
   font-size: 14px;
   font-weight: normal;
@@ -142,12 +135,12 @@ onBeforeUnmount(function () {
 }
 
 .item:hover {
-  background: var(--el-color-primary-light-9);
-  color: var(--fx-color-primary);
+  background: rgba($color: #ffffff, $alpha: 0.16);
+  color: #ffffff;
 }
 
 .item:focus-visible {
-  outline: 2px solid var(--fx-color-primary);
+  outline: 2px solid rgba($color: #ffffff, $alpha: 0.8);
   outline-offset: -2px;
 }
 
