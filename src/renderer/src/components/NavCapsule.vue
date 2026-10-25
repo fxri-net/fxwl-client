@@ -101,7 +101,7 @@ onBeforeUnmount(function () {
   padding: 4px;
   border: 1px solid var(--el-color-info-light-8);
   border-radius: 999px;
-  background: var(--fxy-color-bg);
+  background: var(--fx-color-bg);
   box-shadow: 0 4px 16px rgba($color: #000000, $alpha: 0.18);
   opacity: var(--nav-idle-opacity, 0.35);
   transition: opacity 160ms ease;
@@ -114,11 +114,11 @@ onBeforeUnmount(function () {
 .item {
   min-width: 48px;
   min-height: 40px;
-  padding: 0 var(--fxy-space-md);
+  padding: 0 var(--fx-space-md);
   border: 0;
   border-radius: 999px;
   background: transparent;
-  color: var(--fxy-color-text);
+  color: var(--fx-color-text);
   font-family: inherit;
   font-size: 14px;
   font-weight: normal;
@@ -127,11 +127,11 @@ onBeforeUnmount(function () {
 
 .item:hover {
   background: var(--el-color-primary-light-9);
-  color: var(--fxy-color-primary);
+  color: var(--fx-color-primary);
 }
 
 .item:focus-visible {
-  outline: 2px solid var(--fxy-color-primary);
+  outline: 2px solid var(--fx-color-primary);
   outline-offset: -2px;
 }
 

@@ -11,7 +11,7 @@ export const doInfo = {
   message: function (...args: any[]): void {
     setTimeout(() => {
       // 设置根元素
-      args[0].appendTo = ".fxy-layout"
+      args[0].appendTo = ".fx-layout"
       // 弹出信息
       ElMessage(...args)
     }, 0)
@@ -20,7 +20,7 @@ export const doInfo = {
   notice: function (...args: any[]): void {
     setTimeout(() => {
       // 设置根元素
-      args[0].appendTo = ".fxy-layout"
+      args[0].appendTo = ".fx-layout"
       // 弹出信息
       ElNotification(...args)
     }, 0)

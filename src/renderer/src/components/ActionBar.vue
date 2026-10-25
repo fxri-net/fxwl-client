@@ -31,7 +31,7 @@ async function exitApp() {
 </script>
 
 <template>
-  <div class="fxy-action">
+  <div class="fx-action">
     <div class="action-left">
       <el-button type="success" @click="reloadPage">刷新页面</el-button>
       <!-- 页面自有动作插在此处 -->
@@ -55,17 +55,17 @@ async function exitApp() {
 </template>
 
 <style lang="scss" scoped>
-.fxy-action {
+.fx-action {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: var(--fxy-space-md);
+  gap: var(--fx-space-md);
 }
 
 .action-left,
 .action-right {
   display: flex;
   align-items: center;
-  gap: var(--fxy-space-md);
+  gap: var(--fx-space-md);
 }
 </style>

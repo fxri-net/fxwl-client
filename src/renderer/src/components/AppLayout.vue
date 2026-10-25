@@ -1,16 +1,16 @@
 <template>
-  <div class="fxy-layout">
-    <div v-if="$slots.header" class="fxy-header">
+  <div class="fx-layout">
+    <div v-if="$slots.header" class="fx-header">
       <slot name="header" />
     </div>
-    <div class="fxy-panel">
+    <div class="fx-panel">
       <slot />
     </div>
   </div>
 </template>
 
 <style lang="scss" scoped>
-.fxy-header {
+.fx-header {
   position: absolute;
   left: 0;
   right: 0;
@@ -18,12 +18,12 @@
   z-index: 999;
 }
 
-.fxy-panel {
+.fx-panel {
   position: absolute;
   left: 0;
   right: 0;
   top: 0;
   /* 底部留出固定底栏的高度 */
-  padding: var(--fxy-space-md) var(--fxy-space-md) var(--fxy-footer-height);
+  padding: var(--fx-space-md) var(--fx-space-md) var(--fx-footer-height);
 }
 </style>

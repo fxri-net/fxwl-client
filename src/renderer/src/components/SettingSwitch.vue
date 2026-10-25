@@ -11,6 +11,6 @@ const model = defineModel<boolean>({ default: false })
 
 <template>
   <el-form-item :label="label">
-    <el-switch v-model="model" size="large" inline-prompt style="--el-switch-on-color: var(--fxy-color-switch)" active-text="开启" inactive-text="关闭" />
+    <el-switch v-model="model" size="large" inline-prompt style="--el-switch-on-color: var(--fx-color-switch)" active-text="开启" inactive-text="关闭" />
   </el-form-item>
 </template>

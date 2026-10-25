@@ -55,6 +55,6 @@ async function reloadStore(name?: StoreScope) {
 
 <style lang="scss" scoped>
 .col-gap {
-  padding-left: var(--fxy-space-md);
+  padding-left: var(--fx-space-md);
 }
 </style>

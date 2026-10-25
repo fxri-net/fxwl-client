@@ -10,7 +10,7 @@ const list = ref([
 
 <template>
   <AppLayout>
-    <el-row class="fxy-grid" :gutter="20">
+    <el-row class="fx-grid" :gutter="20">
       <el-col v-for="(item, index) in list" :key="index" :xs="24" :sm="12" :md="6">
         <el-card class="box-card">
           <template #header>
@@ -33,21 +33,21 @@ const list = ref([
 
 <style lang="scss" scoped>
 /* 首页栅格自带内边距，外壳内边距需与其对齐 */
-:deep(.fxy-panel) {
-  padding: var(--fxy-space-md) var(--fxy-space-sm) var(--fxy-footer-height) var(--fxy-space-sm) !important;
+:deep(.fx-panel) {
+  padding: var(--fx-space-md) var(--fx-space-sm) var(--fx-footer-height) var(--fx-space-sm) !important;
 }
 
-.fxy-grid {
+.fx-grid {
   margin: 0 !important;
 }
 
-.fxy-grid .el-col {
-  padding: 0 var(--fxy-space-sm) !important;
-  margin-bottom: var(--fxy-space-md);
-  border-radius: var(--fxy-radius-sm);
+.fx-grid .el-col {
+  padding: 0 var(--fx-space-sm) !important;
+  margin-bottom: var(--fx-space-md);
+  border-radius: var(--fx-radius-sm);
 }
 
-.fxy-grid .title {
+.fx-grid .title {
   display: flex;
   justify-content: space-between;
   align-items: center;

@@ -13,7 +13,7 @@ onMounted(function () {
 </script>
 
 <template>
-  <div class="fxy-footer">
+  <div class="fx-footer">
     <div class="footer-body">
       <slot />
     </div>
@@ -22,16 +22,16 @@ onMounted(function () {
 </template>
 
 <style lang="scss" scoped>
-.fxy-footer {
+.fx-footer {
   position: fixed;
   left: 0;
   right: 0;
   bottom: 0;
   display: flex;
   align-items: center;
-  gap: var(--fxy-space-md);
-  padding: var(--fxy-space-md);
-  background: var(--fxy-color-bg);
+  gap: var(--fx-space-md);
+  padding: var(--fx-space-md);
+  background: var(--fx-color-bg);
 }
 
 .footer-body {
@@ -40,7 +40,7 @@ onMounted(function () {
 }
 
 .footer-version {
-  color: var(--fxy-color-text-secondary);
+  color: var(--fx-color-text-secondary);
   font-size: 12px;
   white-space: nowrap;
 }

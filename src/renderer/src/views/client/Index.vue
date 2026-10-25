@@ -101,8 +101,8 @@ onBeforeUnmount(function () {
 </script>
 
 <template>
-  <div class="fxy-layout">
-    <div class="fxy-panel">
+  <div class="fx-layout">
+    <div class="fx-panel">
       <webview
         v-if="canLoad"
         :key="imStore.client.url_host"
@@ -152,7 +152,7 @@ onBeforeUnmount(function () {
 </template>
 
 <style lang="scss" scoped>
-.fxy-layout {
+.fx-layout {
   font-family: "KaiTi";
   font-weight: bold;
   color: #ffffff;
@@ -160,7 +160,7 @@ onBeforeUnmount(function () {
   user-select: none;
 }
 
-.fxy-panel {
+.fx-panel {
   position: relative;
   width: 100vw;
   height: 100vh;
@@ -169,7 +169,7 @@ onBeforeUnmount(function () {
   overflow: hidden;
 }
 
-.fxy-panel .box {
+.fx-panel .box {
   width: 100%;
   height: 100%;
 }
@@ -182,9 +182,9 @@ onBeforeUnmount(function () {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: var(--fxy-space-md);
-  background: var(--fxy-color-bg);
-  color: var(--fxy-color-text);
+  gap: var(--fx-space-md);
+  background: var(--fx-color-bg);
+  color: var(--fx-color-text);
   font-weight: normal;
 }
 
@@ -196,19 +196,19 @@ onBeforeUnmount(function () {
 .state-tip {
   margin: 0;
   font-size: 14px;
-  color: var(--fxy-color-text-secondary);
+  color: var(--fx-color-text-secondary);
 }
 
 .state-actions {
   display: flex;
-  gap: var(--fxy-space-md);
+  gap: var(--fx-space-md);
 }
 
 .state-spinner {
   width: 32px;
   height: 32px;
   border: 3px solid var(--el-color-primary-light-7);
-  border-top-color: var(--fxy-color-primary);
+  border-top-color: var(--fx-color-primary);
   border-radius: 50%;
   animation: state-spin 0.8s linear infinite;
 }
