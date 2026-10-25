@@ -84,9 +84,13 @@ export const doWindow: {
       webPreferences: {
         // 预加载脚本
         preload: path.join(__dirname, "../preload/index.js"),
-        // 沙箱模式
-        sandbox: false,
-        // WebView标签
+        // 页面不得直接使用 Node 能力，原生能力只能经预加载白名单桥接
+        nodeIntegration: false,
+        // 上下文隔离，预加载与页面分处两个 JS 世界
+        contextIsolation: true,
+        // 渲染进程沙箱，预加载仅保留 contextBridge 与受限 ipcRenderer
+        sandbox: true,
+        // 内嵌页依赖 WebView 容器
         webviewTag: true
       }
     })

@@ -27,9 +27,9 @@ async function chooseDir() {
     title: "选择目录",
     properties: ["openDirectory"]
   })
-  if (!isBlank(data)) {
-    imStore.panel.server.dir = data
-  }
+  if (isBlank(data) || data == undefined) return
+  // 对话框返回路径数组，目录取首个
+  imStore.panel.server.dir = data[0]
 }
 /** 清理缓存 */
 function cleanCache() {

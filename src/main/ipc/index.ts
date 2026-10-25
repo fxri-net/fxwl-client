@@ -4,7 +4,6 @@
 // | Category 方弦研究所
 // +----------------------------------------------------------------------
 import { app, dialog, ipcMain } from "electron"
-import shell from "child_process"
 import { doWindow } from "../window"
 import { doStore } from "../service/store"
 /** 事件模块 */
@@ -19,10 +18,6 @@ export const doIpc = {
     // 退出应用
     ipcMain.handle("quit", function (): void {
       app.quit()
-    })
-    // 命令脚本
-    ipcMain.handle("shell", function (_event, command: string): void {
-      shell.exec(command)
     })
     // 数据存储
     ipcMain.handle("store", function (_event, name: "set" | "get", data: any): any {

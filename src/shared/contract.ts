@@ -53,6 +53,26 @@ export type IpcParam<K extends IpcChannel> = IpcContract[K]["param"]
 /** 通道出参 */
 export type IpcResult<K extends IpcChannel> = IpcContract[K]["result"]
 
+/** 选择对话框参数：渲染层只声明标题与属性，其余项由主进程兜底 */
+export interface OpenFileOption {
+  /** 对话框标题 */
+  title?: string
+  /** 选择属性，如 openDirectory、multiSelections */
+  properties?: string[]
+}
+
+/** 本地桥：渲染层可用的原生能力，白名单之外不可达 */
+export interface NativeBridge {
+  /** 重启应用 @return 完成信号 */
+  restart: () => Promise<IpcResult<"app:restart">>
+  /** 退出应用 @return 完成信号 */
+  quit: () => Promise<IpcResult<"app:quit">>
+  /** 配置读写 @param name 操作类型 @param data 读取时为配置范围，写入时为完整配置对象 @return 读取结果 */
+  store: (name: "get" | "set", data: unknown) => Promise<any>
+  /** 选择文件或目录 @param option 对话框参数 @return 选中的路径，取消时为 undefined */
+  openFile: (option: OpenFileOption) => Promise<string[] | undefined>
+}
+
 /** 通道常量 */
 export const IPC_CHANNEL = {
   /** 应用版本 */

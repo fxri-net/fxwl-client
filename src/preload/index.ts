@@ -4,29 +4,16 @@
 // | Category 方弦研究所
 // +----------------------------------------------------------------------
 import { contextBridge, ipcRenderer } from "electron"
-import { electronAPI } from "@electron-toolkit/preload"
-// Custom APIs for renderer
-const api = {}
-// Use `contextBridge` APIs to expose Electron APIs to
-// renderer only if context isolation is enabled, otherwise
-// just add to the DOM global.
-if (process.contextIsolated) {
-  try {
-    contextBridge.exposeInMainWorld("electron", electronAPI)
-    contextBridge.exposeInMainWorld("api", api)
-  } catch (error) {
-    console.error(error)
-  }
-} else {
-  // @ts-ignore (define in dts)
-  window.electron = electronAPI
-  // @ts-ignore (define in dts)
-  window.api = api
+import type { NativeBridge } from "@shared/contract"
+/** 本地桥实例：只暴露白名单方法，页面拿不到 ipcRenderer 本身 */
+const bridge: NativeBridge = {
+  /** 重启应用 */
+  restart: (): Promise<void> => ipcRenderer.invoke("restart"),
+  /** 退出应用 */
+  quit: (): Promise<void> => ipcRenderer.invoke("quit"),
+  /** 配置读写 */
+  store: (name, data): Promise<unknown> => ipcRenderer.invoke("store", name, data),
+  /** 选择文件或目录 */
+  openFile: (option): Promise<string[] | undefined> => ipcRenderer.invoke("openFile", option)
 }
-contextBridge.exposeInMainWorld("doNative", {
-  restart: () => ipcRenderer.invoke("restart"),
-  quit: () => ipcRenderer.invoke("quit"),
-  shell: (name: string) => ipcRenderer.invoke("shell", name),
-  store: (name: "set" | "get", data: any) => ipcRenderer.invoke("store", name, data),
-  openFile: (option: object) => ipcRenderer.invoke("openFile", option)
-})
+contextBridge.exposeInMainWorld("doNative", bridge)
