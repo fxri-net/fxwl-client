@@ -8,10 +8,12 @@ files:
   - "!config/*"
   - "!src/*"
   - "!website/*"
-  - "!electron.vite.config.{js,ts,mjs,cjs}"
-  - "!{.eslintignore,.eslintrc.cjs,.prettierignore,.prettierrc.yaml,dev-app-update.yml,CHANGELOG.md,README.md}"
+  - "!build/*"
+  - "!{.github,.trae,.agents,.tasks}/*"
+  - "!{electron.vite.config.ts,eslint.config.mjs,vitest.config.ts}"
+  - "!{.prettierignore,.prettierrc,.node-version,CHANGELOG.md,README.md,NOTICE,TRADEMARK.md}"
   - "!{.env,.env.*,.npmrc,pnpm-lock.yaml}"
-  - "!{tsconfig.json,tsconfig.node.json,tsconfig.web.json}"
+  - "!{tsconfig.json,tsconfig.main.json,tsconfig.node.json,tsconfig.web.json}"
 asarUnpack:
   - resources/**
 afterSign: build/notarize.js
@@ -45,6 +47,3 @@ linux:
 appImage:
   artifactName: ${description}-${version}.${ext}
 npmRebuild: false
-publish:
-  provider: generic
-  url: https://example.com/auto-updates

@@ -1,36 +1,35 @@
-const { notarize } = require('@electron/notarize')
+const { notarize } = require("@electron/notarize")
+
+/** 应用标识，与 electron-builder.yml 的 appId 保持一致 */
+const appId = "net.fxri.fxwl-client"
 
 module.exports = async (context) => {
-    if (process.platform !== 'darwin') return
+  if (process.platform !== "darwin") return
 
-    console.log('aftersign hook triggered, start to notarize app.')
+  // 本机打包不做公证，只有 CI 上具备凭据时才需要
+  if (!process.env.CI) {
+    console.log("跳过公证：当前不在 CI 环境。")
+    return
+  }
 
-    if (!process.env.CI) {
-        console.log(`skipping notarizing, not in CI.`)
-        return
-    }
+  // 凭据缺失时跳过，避免打包流程整体失败
+  if (!process.env.APPLE_ID || !process.env.APPLE_ID_PASS) {
+    console.warn("跳过公证：未配置 APPLE_ID 与 APPLE_ID_PASS。")
+    return
+  }
 
-    if (!('APPLE_ID' in process.env && 'APPLE_ID_PASS' in process.env)) {
-        console.warn('skipping notarizing, APPLE_ID and APPLE_ID_PASS env variables must be set.')
-        return
-    }
+  const appName = context.packager.appInfo.productFilename
 
-    const appId = 'net.fxri.fxwl-client'
-
-    const { appOutDir } = context
-
-    const appName = context.packager.appInfo.productFilename
-
-    try {
-        await notarize({
-            appBundleId: appId,
-            appPath: `${appOutDir}/${appName}.app`,
-            appleId: process.env.APPLE_ID,
-            appleIdPassword: process.env.APPLEIDPASS
-        })
-    } catch (error) {
-        console.error(error)
-    }
-
-    console.log(`done notarizing ${appId}.`)
+  try {
+    await notarize({
+      appBundleId: appId,
+      appPath: `${context.appOutDir}/${appName}.app`,
+      appleId: process.env.APPLE_ID,
+      appleIdPassword: process.env.APPLE_ID_PASS
+    })
+    console.log(`公证完成：${appId}。`)
+  } catch (error) {
+    // 公证失败不阻断构建，产物仍可人工验证
+    console.error(error)
+  }
 }

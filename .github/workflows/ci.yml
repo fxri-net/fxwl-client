@@ -1,0 +1,42 @@
+name: 持续集成
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  verify:
+    name: 质量门（${{ matrix.os }}）
+    runs-on: ${{ matrix.os }}
+    strategy:
+      # 单个平台失败不影响其余平台跑完，便于一次看全问题
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v4
+
+      # 版本取自 package.json 的 packageManager 字段
+      - name: 安装 pnpm
+        uses: pnpm/action-setup@v4
+
+      # Node 版本取自 .node-version，与本地保持一致
+      - name: 安装 Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+          cache: pnpm
+
+      - name: 安装依赖
+        run: pnpm install --frozen-lockfile
+
+      # 本地与 CI 共用同一条聚合验收命令，不在此另抄步骤
+      - name: 聚合验收
+        run: pnpm run verify
+
+      # Windows 额外确认打包链路可用，只产出未压缩目录、不做签名与发布
+      - name: 打包冒烟
+        if: runner.os == 'Windows'
+        run: pnpm exec electron-builder --win --dir --publish never
