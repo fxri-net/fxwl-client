@@ -3,6 +3,8 @@ productName: 方弦物联：桌面终端
 copyright: Copyright © 2023-2026 唐启云. All rights reserved.
 directories:
   buildResources: build
+# 复用已安装的 Electron 二进制，避免打包时重复下载约 92 MB 的发行包
+electronDist: node_modules/electron/dist
 files:
   - "!**/.vscode/*"
   - "!config/*"
