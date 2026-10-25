@@ -23,8 +23,8 @@ export const doStatic = {
     // 端口与目录兜底
     const port = Number(serverConfig.port) > 0 ? Number(serverConfig.port) : 2602
     const dir = path.resolve(doEnv.localDir, serverConfig.dir ?? "website")
-    // 目录不存在时创建
-    if (!fs.existsSync(dir)) fs.mkdirSync(dir)
+    // 目录不存在时按层级创建
+    fs.mkdirSync(dir, { recursive: true })
     // 端口被占用时按配置提示
     if (await doPort.check(port)) {
       if (serverConfig.port_prompt && doWindow.main != undefined) {

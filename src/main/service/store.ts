@@ -6,13 +6,17 @@
 import { app } from "electron"
 import Store from "electron-store"
 import path from "path"
-import { doEnv } from "../env"
+import { doMigrate } from "./migrate"
+/** 配置目录：迁移可用时为用户数据目录，否则退回历史目录 */
+const dir = path.resolve(doMigrate.prepare(), "config")
 /** 存储实例 */
 const store = new Store({
-  cwd: path.resolve(doEnv.localDir, "config")
+  cwd: dir
 })
 /** 存储服务 */
 export const doStore = {
+  /** 配置目录 */
+  dir: dir,
   /** 读取数据 @param key 配置键 @return 配置值 */
   get: function (key: string): any {
     return store.get(key)
