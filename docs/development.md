@@ -159,3 +159,16 @@ pnpm verify         # 验收：lint → typecheck → test → build
 - 用户可感知的改动通过 `pnpm changelog:add` 建变更集，发版由 `pnpm changelog:version` 消费变更集生成 `CHANGELOG.md`，不要手改版本号。
 - 文档站的更新日志页由 `pnpm sync:changelog-doc` 从根 `CHANGELOG.md` 生成，改完日志再执行一次同步。
 - 三平台出包细节见[构建与打包](./build)。
+
+## 持续集成与文档发布
+
+两条托管链路只调用同一条聚合验收命令，不在流水线里另抄步骤清单：
+
+| 链路 | 校验 | 文档发布 |
+| --- | --- | --- |
+| GitHub | 三平台矩阵跑 `pnpm verify`，Windows 追加免安装目录出包冒烟 | 主干推送后构建并发布 Pages |
+| GitLab | 默认分支跑 `pnpm verify` | `pages` 阶段构建并产出 `public` |
+
+- 文档站基址经 `VITEPRESS_BASE` 注入，规范地址与页脚编辑回链经 `SITE_URL`、`REPO_URL` 注入；仓库内只保留默认值，两平台的实际值由流水线或 CI/CD 变量提供。
+- 检出需完整历史，否则「最后更新于」会全部显示为最近一次提交时间。
+- ⚠️ 部署前需在平台侧开启 Pages（GitHub 选 GitHub Actions 作为来源），GitLab 需已注册 Runner 并启用 Pages。

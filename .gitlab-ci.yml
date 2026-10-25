@@ -1,0 +1,37 @@
+# GitLab CI：完整校验（test）+ 文档站构建部署（pages）
+# ⚠️ 需项目已启用 GitLab Runner 与 Pages；Runner 未启用时 job 停留在 pending 属预期
+# 校验步骤的唯一真源是 package.json 的 verify 脚本，此处只调用，不在 CI 里另写步骤清单，避免两侧漂移
+# 文档站基址按实际 Pages 路径注入：GitLab Pages 默认是项目完整路径前缀，配了自定义域名则可设为 /
+stages:
+  - test
+  - deploy
+
+# 与 .node-version 对齐，避免与 GitHub Actions 两侧 Node 版本漂移
+.test-setup: &test-setup
+  image: node:20.20.2
+  before_script:
+    - corepack enable
+    - pnpm install --frozen-lockfile
+
+verify:
+  <<: *test-setup
+  stage: test
+  script:
+    - pnpm verify
+  rules:
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
+
+pages:
+  <<: *test-setup
+  stage: deploy
+  script:
+    # Pages 基址默认取项目完整路径；在 CI/CD 变量里设 VITEPRESS_BASE 可覆盖（自定义域名设为 /）
+    - VITEPRESS_BASE="${VITEPRESS_BASE:-/fxri/develop/0001.base/fxwl-client/}" pnpm docs:build
+    # 站点规范地址与编辑回链走 CI/CD 变量，未注入时回落到仓库内默认值（GitHub 主仓库）
+    - rm -rf public && mv docs/.vitepress/dist public
+  artifacts:
+    paths:
+      - public
+  # 默认分支每次推送都重建：站点输入不止 docs/，枚举路径过滤必然漏项
+  rules:
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'

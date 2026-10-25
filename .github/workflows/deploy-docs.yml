@@ -1,0 +1,66 @@
+name: 发布文档站
+
+# 默认分支每次推送都重建：站点输入不止 docs/（配置还引用仓库根 README、CHANGELOG），
+# 枚举路径过滤必然漏项，故不设 paths 约束
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# 同一时间只保留最新一次部署，取消排队中的旧任务
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: 构建文档站
+    runs-on: ubuntu-latest
+    steps:
+      # 完整克隆：站点「最后更新于」取自 git 提交时间，浅克隆会全部显示为同一天
+      - name: 检出代码
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: 安装 pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: 安装 Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+          cache: pnpm
+
+      - name: 安装依赖
+        run: pnpm install --frozen-lockfile
+
+      # 显式注入部署身份：子路径与仓库名一致，规范地址用于 sitemap 与分享卡片，
+      # 仓库地址决定页脚编辑回链指向哪条托管链路
+      - name: 构建文档站
+        env:
+          VITEPRESS_BASE: /fxwl-client/
+          SITE_URL: https://fxri-net.github.io/fxwl-client/
+          REPO_URL: https://github.com/fxri-net/fxwl-client
+        run: pnpm docs:build
+
+      - name: 上传 Pages 产物
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: docs/.vitepress/dist
+
+  deploy:
+    name: 部署到 GitHub Pages
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: 部署
+        id: deployment
+        uses: actions/deploy-pages@v4
