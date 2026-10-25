@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { computed, reactive, ref } from "vue"
+import { computed, onBeforeUnmount, onMounted, reactive, ref } from "vue"
+import type { ClientShortcut } from "@shared/contract"
 import { CLIENT_PARTITION } from "@shared/defines"
 import { doView } from "@/libs/nav"
 import { imStore } from "@/stores"
@@ -9,6 +10,8 @@ interface Guest {
   canGoBack: () => boolean
   /** 后退 */
   goBack: () => void
+  /** 重新加载 */
+  reload: () => void
 }
 /** 元素集合 */
 const elems = {
@@ -21,15 +24,15 @@ const datas = reactive({
   loading: true,
   /** 加载失败信息，空串表示无错误 */
   error: "",
-  /** 重建计数，递增后强制重建内嵌页 */
-  rebuild: 0,
+  /** 加载失败错误码 */
+  errorCode: 0,
   /** 内嵌页当前是否可后退 */
-  canBack: false
+  canBack: false,
+  /** 胶囊激活计数，快捷键触发时递增 */
+  flash: 0
 })
-/** 内嵌页键值，宿主地址或重建计数变化时重建 */
-const boxKey = computed(function () {
-  return imStore.client.url_host + "#" + datas.rebuild
-})
+/** 取消快捷键订阅 */
+let offShortcut: (() => void) | undefined
 /** 宿主地址是否可加载 */
 const canLoad = computed(function () {
   return /^https?:\/\//i.test(imStore.client.url_host)
@@ -38,6 +41,7 @@ const canLoad = computed(function () {
 function startLoad() {
   datas.loading = true
   datas.error = ""
+  datas.errorCode = 0
 }
 /** 结束加载 */
 function stopLoad() {
@@ -49,14 +53,15 @@ function failLoad(event: { errorCode: number; errorDescription: string; isMainFr
   if (event.isMainFrame === false || event.errorCode == -3) return
   datas.loading = false
   datas.error = event.errorDescription || "内嵌页加载失败"
+  datas.errorCode = event.errorCode
 }
 /** 重试加载 */
 function retry() {
-  // 递增键值让失败的页面连同 guest 一起被销毁重建
+  // 就地重载，保留会话与历史，避免整页重建带来的闪烁
   datas.error = ""
+  datas.errorCode = 0
   datas.loading = true
-  datas.canBack = false
-  datas.rebuild++
+  elems.box.value?.reload()
 }
 /** 同步后退可用状态 */
 function syncBack() {
@@ -73,6 +78,26 @@ function leavePage() {
   // 跳转到首页，内嵌页随组件卸载销毁
   doView.jump("/")
 }
+/** 处理内嵌页快捷键 */
+function handleShortcut(shortcut: ClientShortcut) {
+  // 焦点在页面内时宿主状态可能滞后，先补一次后退可用性
+  syncBack()
+  datas.flash++
+  // Esc 已在起始页时没有可后退历史，按退出处理
+  if (shortcut == "back" || datas.canBack) {
+    goBack()
+    return
+  }
+  leavePage()
+}
+onMounted(function () {
+  // 纯浏览器环境没有原生通道
+  if (window.doNative == undefined) return
+  offShortcut = window.doNative.client.onShortcut(handleShortcut)
+})
+onBeforeUnmount(function () {
+  offShortcut?.()
+})
 </script>
 
 <template>
@@ -80,7 +105,7 @@ function leavePage() {
     <div class="fxy-panel">
       <webview
         v-if="canLoad"
-        :key="boxKey"
+        :key="imStore.client.url_host"
         :ref="elems.box"
         class="box"
         :partition="CLIENT_PARTITION"
@@ -100,9 +125,12 @@ function leavePage() {
         </template>
         <template v-else-if="datas.error != ''">
           <p class="state-text">内嵌页加载失败</p>
-          <p class="state-tip">{{ datas.error }}</p>
+          <p class="state-tip">{{ datas.error }}（错误码 {{ datas.errorCode }}）</p>
           <p class="state-tip">{{ imStore.client.url_host }}</p>
-          <el-button type="primary" @click="retry">重试</el-button>
+          <div class="state-actions">
+            <el-button type="primary" @click="retry">重试</el-button>
+            <el-button @click="leavePage">退出</el-button>
+          </div>
         </template>
         <template v-else>
           <div class="state-spinner"></div>
@@ -116,6 +144,7 @@ function leavePage() {
       :offset-x="imStore.client.nav.offsetX"
       :offset-y="imStore.client.nav.offsetY"
       :idle-opacity="imStore.client.nav.idleOpacity"
+      :flash="datas.flash"
       @back="goBack"
       @exit="leavePage"
     />
@@ -168,6 +197,11 @@ function leavePage() {
   margin: 0;
   font-size: 14px;
   color: var(--fxy-color-text-secondary);
+}
+
+.state-actions {
+  display: flex;
+  gap: var(--fxy-space-md);
 }
 
 .state-spinner {

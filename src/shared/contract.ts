@@ -53,6 +53,20 @@ export type IpcParam<K extends IpcChannel> = IpcContract[K]["param"]
 /** 通道出参 */
 export type IpcResult<K extends IpcChannel> = IpcContract[K]["result"]
 
+/** 内嵌页快捷键 */
+export type ClientShortcut = "escape" | "back"
+
+/** 事件契约：主进程单向推送，渲染层按需订阅 */
+export interface EventContract {
+  /** 内嵌页快捷键 */
+  "client:shortcut": ClientShortcut
+}
+
+/** 事件名 */
+export type EventChannel = keyof EventContract
+/** 事件负载 */
+export type EventPayload<K extends EventChannel> = EventContract[K]
+
 /** 本地桥：渲染层可用的原生能力，白名单之外不可达 */
 export interface NativeBridge {
   /** 应用能力 */
@@ -93,6 +107,11 @@ export interface NativeBridge {
     /** 选择目录 @param title 对话框标题 @return 选中的目录，取消时为 null */
     openDirectory: (title?: string) => Promise<IpcResult<"dialog:openDirectory">>
   }
+  /** 客户端能力 */
+  client: {
+    /** 订阅内嵌页快捷键 @param handler 快捷键处理函数 @return 取消订阅 */
+    onShortcut: (handler: (shortcut: ClientShortcut) => void) => () => void
+  }
 }
 
 /** 通道常量 */
@@ -123,6 +142,12 @@ export const IPC_CHANNEL = {
   ServicePort: "service:port",
   /** 选择目录 */
   DialogOpenDirectory: "dialog:openDirectory"
+} as const
+
+/** 事件常量 */
+export const IPC_EVENT = {
+  /** 内嵌页快捷键 */
+  ClientShortcut: "client:shortcut"
 } as const
 
 /** 是否普通对象 @param value 原始值 @return 是否普通对象 */

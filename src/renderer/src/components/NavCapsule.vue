@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onBeforeUnmount, onMounted, reactive } from "vue"
+import { computed, onBeforeUnmount, onMounted, reactive, watch } from "vue"
 import type { NavAnchor } from "@shared/defines"
 /** 定义集合 */
 interface Defines {
@@ -13,6 +13,8 @@ interface Defines {
   offsetY: number
   /** 闲置不透明度 */
   idleOpacity: number
+  /** 激活计数，递增时恢复满不透明 */
+  flash: number
 }
 const props = defineProps<Defines>()
 /** 派发选项 */
@@ -55,6 +57,16 @@ function leaveActive() {
     datas.active = false
   }, IDLE_DELAY)
 }
+watch(
+  function () {
+    return props.flash
+  },
+  function () {
+    // 快捷键触发后短暂亮相，让用户知道导航仍在原处
+    enterActive()
+    leaveActive()
+  }
+)
 onMounted(function () {
   // 首次进入完整显示，作为一次性引导
   leaveActive()

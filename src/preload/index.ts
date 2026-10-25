@@ -4,8 +4,9 @@
 // | Category 方弦研究所
 // +----------------------------------------------------------------------
 import { contextBridge, ipcRenderer } from "electron"
-import { IPC_CHANNEL } from "@shared/contract"
-import type { NativeBridge, ServiceStatus } from "@shared/contract"
+import type { IpcRendererEvent } from "electron"
+import { IPC_CHANNEL, IPC_EVENT } from "@shared/contract"
+import type { ClientShortcut, NativeBridge, ServiceStatus } from "@shared/contract"
 /** 本地桥实例：只暴露白名单方法，页面拿不到 ipcRenderer 本身 */
 const bridge: NativeBridge = {
   /** 应用能力 */
@@ -45,6 +46,20 @@ const bridge: NativeBridge = {
   dialog: {
     /** 选择目录 */
     openDirectory: (title): Promise<string | null> => ipcRenderer.invoke(IPC_CHANNEL.DialogOpenDirectory, { title })
+  },
+  /** 客户端能力 */
+  client: {
+    /** 订阅内嵌页快捷键 */
+    onShortcut: (handler): (() => void) => {
+      /** 通道监听器 */
+      const listener = function (_event: IpcRendererEvent, shortcut: ClientShortcut): void {
+        handler(shortcut)
+      }
+      ipcRenderer.on(IPC_EVENT.ClientShortcut, listener)
+      return function () {
+        ipcRenderer.removeListener(IPC_EVENT.ClientShortcut, listener)
+      }
+    }
   }
 }
 contextBridge.exposeInMainWorld("doNative", bridge)
