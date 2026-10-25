@@ -58,12 +58,11 @@ describe("配置归一", () => {
   it("越界数值收敛到区间边界", () => {
     const config = doConfig.normalize({
       panel: { window: { width: 100 }, server: { port: 70000 } },
-      client: { nav: { offsetX: -20, idleOpacity: 5 } }
+      client: { nav: { offsetX: -20 } }
     })
     expect(config.panel.window.width).toBe(320)
     expect(config.panel.server.port).toBe(65535)
     expect(config.client.nav.offsetX).toBe(0)
-    expect(config.client.nav.idleOpacity).toBe(1)
   })
 
   it("未知取值回落默认值", () => {

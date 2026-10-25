@@ -97,7 +97,6 @@
 | `client.nav.anchor` | 枚举 | `top-left` | `top-left` / `top-right` / `bottom-right` / `bottom-left` | 导航胶囊停靠位置 |
 | `client.nav.offsetX` | 数值 | `0` | 0～400 | 水平偏移（像素），四舍五入取整 |
 | `client.nav.offsetY` | 数值 | `0` | 0～400 | 垂直偏移（像素），四舍五入取整 |
-| `client.nav.idleOpacity` | 数值 | `0.35` | 0.1～1 | 胶囊闲置后的不透明度，配置页未暴露 |
 
 ::: warning 主机名白名单
 内嵌页放行按「配置地址的主机名」判定，`127.0.0.1` 与 `localhost` 属于不同主机名。页面地址填 `http://localhost:2602` 后，网页内跳转到 `http://127.0.0.1:2602` 会被拦截并转交系统浏览器。
@@ -121,6 +120,5 @@
 
 - `app.store_name`
 - `app.url_list`
-- `client.nav.idleOpacity`
 
 新增或调整界面字段只需改配置 schema 中的一行声明，无需改动渲染逻辑，具体做法见[开发指南](./development#新增配置字段)。

@@ -14,8 +14,6 @@ export interface NavConfig {
   offsetX: number
   /** 垂直偏移（像素） */
   offsetY: number
-  /** 闲置不透明度 */
-  idleOpacity: number
 }
 
 /** 应用配置 */
@@ -108,9 +106,7 @@ export const NAV_DEFAULTS: NavConfig = {
   /** 水平偏移（像素） */
   offsetX: 0,
   /** 垂直偏移（像素） */
-  offsetY: 0,
-  /** 闲置不透明度 */
-  idleOpacity: 0.35
+  offsetY: 0
 }
 
 /** 默认配置 */
@@ -279,9 +275,7 @@ const normalizeNav = (raw: unknown): NavConfig => {
     /** 水平偏移（像素） */
     offsetX: Math.round(pickNumber(data.offsetX, NAV_DEFAULTS.offsetX, 0, 400)),
     /** 垂直偏移（像素） */
-    offsetY: Math.round(pickNumber(data.offsetY, NAV_DEFAULTS.offsetY, 0, 400)),
-    /** 闲置不透明度 */
-    idleOpacity: pickNumber(data.idleOpacity, NAV_DEFAULTS.idleOpacity, 0.1, 1)
+    offsetY: Math.round(pickNumber(data.offsetY, NAV_DEFAULTS.offsetY, 0, 400))
   }
 }
 

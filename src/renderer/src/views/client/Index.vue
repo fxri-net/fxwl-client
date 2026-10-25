@@ -129,7 +129,7 @@ onBeforeUnmount(function () {
           <p class="state-tip">{{ imStore.client.url_host }}</p>
           <div class="state-actions">
             <el-button type="primary" @click="retry">重试</el-button>
-            <el-button @click="leavePage">退出</el-button>
+            <el-button @click="leavePage">返回首页</el-button>
           </div>
         </template>
         <template v-else>
@@ -143,7 +143,6 @@ onBeforeUnmount(function () {
       :anchor="imStore.client.nav.anchor"
       :offset-x="imStore.client.nav.offsetX"
       :offset-y="imStore.client.nav.offsetY"
-      :idle-opacity="imStore.client.nav.idleOpacity"
       :flash="datas.flash"
       @back="goBack"
       @exit="leavePage"
