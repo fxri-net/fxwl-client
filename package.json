@@ -3,9 +3,13 @@
   "version": "1.0.1",
   "description": "方弦物联：桌面终端",
   "main": "./out/main/index.js",
-  "author": "唐启云",
+  "author": {
+    "name": "唐启云",
+    "email": "tqy@fxri.net",
+    "url": "https://www.fxri.net"
+  },
   "homepage": "https://www.fxri.net",
-  "license": "Apache2",
+  "license": "Apache-2.0",
   "scripts": {
     "format": "prettier --write .",
     "lint": "eslint . --ext .js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts,.vue --fix",
