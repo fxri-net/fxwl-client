@@ -18,6 +18,9 @@ const ignores = [
   // 内嵌站点的构建产物与本地运行目录不入库、不校验
   "website/**",
   "config/**",
+  // 文档站构建产物与缓存不参与校验
+  "docs/.vitepress/dist/**",
+  "docs/.vitepress/cache/**",
   // unplugin 生成的声明文件不参与校验
   "src/renderer/src/components.d.ts"
 ]
@@ -124,7 +127,7 @@ export default tseslint.config(
   },
   // 工具链脚本跑在本机 Node 20
   {
-    files: ["*.{js,cjs,mjs,ts}", "build/**/*.{js,cjs,mjs}"],
+    files: ["*.{js,cjs,mjs,ts}", "build/**/*.{js,cjs,mjs}", "scripts/**/*.{js,cjs,mjs}"],
     languageOptions: {
       globals: globals.node
     }
