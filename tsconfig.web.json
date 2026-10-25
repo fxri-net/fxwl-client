@@ -7,6 +7,8 @@
     "src/shared/**/*",
     "src/preload/*.d.ts"
   ],
+  // 用例由 vitest 单独运行，不进入渲染层类型检查
+  "exclude": ["src/shared/**/*.test.ts"],
   "compilerOptions": {
     "composite": true,
     "baseUrl": ".",

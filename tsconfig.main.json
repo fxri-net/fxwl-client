@@ -1,6 +1,8 @@
 {
   "extends": "@electron-toolkit/tsconfig/tsconfig.node.json",
   "include": ["src/main/**/*", "src/preload/**/*", "src/shared/**/*"],
+  // 用例由 vitest 单独运行，不进入主进程类型检查
+  "exclude": ["src/shared/**/*.test.ts"],
   "compilerOptions": {
     "composite": true,
     // 主进程与 preload 跑在 Electron 22 内置的 Node 16 上，类型面锁在 ES2021

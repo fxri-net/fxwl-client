@@ -6,16 +6,31 @@ import { ElementPlusResolver } from "unplugin-vue-components/resolvers"
 import inject from "@rollup/plugin-inject"
 import path from "path"
 
+/** 共享层路径，主进程、预加载与渲染层共用 */
+const shared = path.resolve(__dirname, "src/shared")
+
 export default defineConfig({
   // 主程序
   main: {
     // 插件数组
-    plugins: [externalizeDepsPlugin(), bytecodePlugin()]
+    plugins: [externalizeDepsPlugin(), bytecodePlugin()],
+    // 解决方案
+    resolve: {
+      alias: {
+        "@shared": shared
+      }
+    }
   },
   // 预加载脚本
   preload: {
     // 插件数组
-    plugins: [externalizeDepsPlugin(), bytecodePlugin()]
+    plugins: [externalizeDepsPlugin(), bytecodePlugin()],
+    // 解决方案
+    resolve: {
+      alias: {
+        "@shared": shared
+      }
+    }
   },
   // 渲染器
   renderer: {
@@ -41,7 +56,8 @@ export default defineConfig({
     // 解决方案
     resolve: {
       alias: {
-        "@": path.resolve(__dirname, "src/renderer/src")
+        "@": path.resolve(__dirname, "src/renderer/src"),
+        "@shared": shared
       }
     },
     // 服务器配置
