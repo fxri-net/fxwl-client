@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { STORE_SCOPES } from "@shared/defines"
 import type { StoreScope } from "@shared/defines"
+import { flushBridge } from "@/composables/useBridge"
 import { imApp, imView } from "@/libs/base"
 import { isBlank } from "@/libs/is"
 import { doView } from "@/libs/nav"
@@ -13,7 +14,7 @@ function tabChange(name: any) {
   imStore.app.panel_index = name
 }
 /** 刷新存储 */
-function reloadStore(name?: StoreScope) {
+async function reloadStore(name?: StoreScope) {
   if (name != undefined) {
     imScope[name]().reset()
   } else {
@@ -22,6 +23,8 @@ function reloadStore(name?: StoreScope) {
       imScope[scope]().reset()
     })
   }
+  // 先落盘再刷新，避免防抖窗口内的重置被丢弃
+  await flushBridge()
   // 刷新页面
   reloadPage()
 }
@@ -45,11 +48,15 @@ function reloadPage() {
   window.location.reload()
 }
 /** 重启应用 */
-function restartApp() {
+async function restartApp() {
+  // 先落盘再重启，避免防抖窗口内的修改丢失
+  await flushBridge()
   doNative.app.restart()
 }
 /** 退出应用 */
-function exitApp() {
+async function exitApp() {
+  // 先落盘再退出，避免防抖窗口内的修改丢失
+  await flushBridge()
   doNative.app.quit()
 }
 </script>

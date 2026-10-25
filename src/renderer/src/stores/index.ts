@@ -3,11 +3,6 @@
 // +----------------------------------------------------------------------
 // | Category 方弦研究所
 // +----------------------------------------------------------------------
-import { watch } from "vue"
-import type { StoreScope } from "@shared/defines"
-import { STORE_SCOPES } from "@shared/defines"
-import { doParam } from "@/libs/module"
-import { doData } from "@/libs/obj"
 import { useAppStore } from "@/stores/app"
 import { useClientStore } from "@/stores/client"
 import { usePanelStore } from "@/stores/panel"
@@ -34,35 +29,4 @@ export const imStore = {
   get panel() {
     return usePanelStore().datas
   }
-}
-/**
- * 初始化存储
- * @example initStore()
- */
-export function initStore(): void {
-  STORE_SCOPES.forEach(function (scope: StoreScope) {
-    /** 当前数据 */
-    const datas = imStore[scope] as Record<string, unknown>
-    // 回填本地缓存并持续同步
-    doParam.watch(scope, datas)
-    // 回填本地配置
-    window.doNative != undefined &&
-      doNative.config.get(scope).then(function (res) {
-        /** 与内存结构对齐的配置 */
-        const data = Object.keys(datas).reduce<Record<string, unknown>>(function (acc, key) {
-          // 配置侧独有字段不进入视图
-          key in res && (acc[key] = res[key])
-          return acc
-        }, {})
-        doData.merge("ref|mix", datas, data)
-      })
-    // 数据变更写入本地配置
-    watch(
-      datas,
-      function () {
-        window.doNative != undefined && doNative.config.set(scope, JSON.parse(JSON.stringify(datas)))
-      },
-      { deep: true }
-    )
-  })
 }

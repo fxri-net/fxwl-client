@@ -3,10 +3,8 @@
 // +----------------------------------------------------------------------
 // | Category 方弦研究所
 // +----------------------------------------------------------------------
-import { isReactive, isRef, watch } from "vue"
 import { ElMessage, ElNotification } from "element-plus"
-import { doData } from "@/libs/obj"
-import { isEmpty, isJson, isObject, isSet, isString } from "@/libs/is"
+import { isEmpty, isObject, isSet, isString } from "@/libs/is"
 /** 消息模块 */
 export const doInfo = {
   /** 消息提示 */
@@ -49,24 +47,5 @@ export const doParam = {
       enums = JSON.parse(enums)
     }
     return isSet(enums[index]) ? enums[index] : ""
-  },
-  /** 监听变量 */
-  watch: function (name: string, base?: any): void {
-    // 疏理数据
-    let data: any = localStorage.getItem(name)
-    if (isJson(data)) {
-      data = JSON.parse(data)
-    }
-    data = isObject(data) ? data : {}
-    // 配置数据
-    if (isRef(base)) {
-      doData.merge("ref|mix", base.value as any, data)
-    } else if (isReactive(base)) {
-      doData.merge("ref|mix", base, data)
-    } else {
-      return
-    }
-    // 监听数据
-    watch(base, (data) => localStorage.setItem(name, !isString(data) ? JSON.stringify(data) : String(data)), { deep: true })
   }
 }

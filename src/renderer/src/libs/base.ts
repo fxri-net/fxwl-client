@@ -6,7 +6,6 @@
 import type { Ref } from "vue"
 import { ref } from "vue"
 import type { Router } from "vue-router"
-import { doParam } from "@/libs/module"
 /** 应用 */
 export const imApp: {
   /** 初始化 */
@@ -33,14 +32,4 @@ export const imView: {
 } = {
   scale: ref(""),
   deploy: ref({})
-}
-/**
- * 初始化基础数据
- * @example initBase()
- */
-export function initBase(): void {
-  // 监听应用参数
-  doParam.watch("param", imApp.param)
-  // 监听数据部署
-  doParam.watch("deploy", imView.deploy)
 }

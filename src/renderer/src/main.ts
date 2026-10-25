@@ -3,8 +3,7 @@ import { createPinia } from "pinia"
 import App from "@/App.vue"
 import router from "@/router/index"
 import elementPlus from "element-plus"
-import { initBase } from "@/libs/base"
-import { initStore } from "@/stores"
+import { useBridge } from "@/composables/useBridge"
 import "element-plus/dist/index.css"
 import "@/styles/base.scss"
 
@@ -15,7 +14,6 @@ app.use(createPinia())
 // 启动应用
 app.use(router)
 app.use(elementPlus)
-// 回填状态与基础数据
-initStore()
-initBase()
+// 接入原生配置
+useBridge()
 app.mount("#app")
