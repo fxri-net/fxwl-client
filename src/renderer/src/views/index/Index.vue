@@ -32,9 +32,9 @@ const list = ref([
 </template>
 
 <style lang="scss" scoped>
-/* 首页栅格自带 5px 内边距，外壳内边距需与其对齐 */
+/* 首页栅格自带内边距，外壳内边距需与其对齐 */
 :deep(.fxy-panel) {
-  padding: 10px 5px 52px 5px !important;
+  padding: var(--fxy-space-md) var(--fxy-space-sm) var(--fxy-footer-height) var(--fxy-space-sm) !important;
 }
 
 .fxy-grid {
@@ -42,9 +42,9 @@ const list = ref([
 }
 
 .fxy-grid .el-col {
-  padding: 0 5px !important;
-  margin-bottom: 10px;
-  border-radius: 4px;
+  padding: 0 var(--fxy-space-sm) !important;
+  margin-bottom: var(--fxy-space-md);
+  border-radius: var(--fxy-radius-sm);
 }
 
 .fxy-grid .title {

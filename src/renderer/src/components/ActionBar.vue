@@ -59,13 +59,13 @@ async function exitApp() {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 10px;
+  gap: var(--fxy-space-md);
 }
 
 .action-left,
 .action-right {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: var(--fxy-space-md);
 }
 </style>

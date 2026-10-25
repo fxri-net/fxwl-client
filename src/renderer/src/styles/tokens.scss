@@ -1,0 +1,46 @@
+@use "sass:color";
+/* 设计令牌：页面与组件统一引用，换主题只需调整主题色板 */
+/* 主题色板 */
+$fxy-palette: (
+  primary: #409eff,
+  success: #67c23a,
+  warning: #e6a23c,
+  danger: #f56c6c,
+  info: #909399
+);
+
+:root {
+  /* 主题色：同步覆盖 Element Plus 基础色与衍生色，保证悬停、浅底等状态一致 */
+  @each $name, $color in $fxy-palette {
+    --fxy-color-#{$name}: #{$color};
+    --el-color-#{$name}: #{$color};
+    --el-color-#{$name}-light-3: #{color.mix(#ffffff, $color, 30%)};
+    --el-color-#{$name}-light-5: #{color.mix(#ffffff, $color, 50%)};
+    --el-color-#{$name}-light-7: #{color.mix(#ffffff, $color, 70%)};
+    --el-color-#{$name}-light-8: #{color.mix(#ffffff, $color, 80%)};
+    --el-color-#{$name}-light-9: #{color.mix(#ffffff, $color, 90%)};
+    --el-color-#{$name}-dark-2: #{color.mix(#000000, $color, 20%)};
+  }
+
+  /* 文本与背景 */
+  --fxy-color-text: #303133;
+  --fxy-color-text-secondary: #909399;
+  --fxy-color-bg: #ffffff;
+
+  /* 圆角 */
+  --fxy-radius-sm: 4px;
+
+  /* 间距 */
+  --fxy-space-sm: 5px;
+  --fxy-space-md: 10px;
+
+  /* 动效时长 */
+  --fxy-duration-fast: 0.2s;
+  --fxy-duration-base: 0.3s;
+
+  /* 开关开启色 */
+  --fxy-color-switch: #13ce66;
+
+  /* 固定底栏高度，供内容区留白 */
+  --fxy-footer-height: 52px;
+}

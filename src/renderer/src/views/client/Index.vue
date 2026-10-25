@@ -13,7 +13,7 @@ function leavePage() {
 <template>
   <div class="fxy-layout">
     <div class="fxy-header">
-      <div class="back" :style="imStore.client.back_btn" @click="leavePage"></div>
+      <div class="back" @click="leavePage"></div>
     </div>
     <div class="fxy-panel">
       <webview id="box" class="box" :src="imStore.client.url_host"></webview>

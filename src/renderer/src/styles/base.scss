@@ -7,7 +7,7 @@
 }
 
 html {
-  background: #ffffff;
+  background: var(--fxy-color-bg);
   touch-action: manipulation;
 }
 
@@ -21,14 +21,4 @@ a {
 
 .fxy-layout {
   min-height: 100%;
-}
-
-.fxy-layout.scale {
-  position: relative;
-  min-width: 1920px;
-  min-height: 1080px;
-  width: 1920px;
-  height: 1080px;
-  transform-origin: left top;
-  overflow: hidden;
 }

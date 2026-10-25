@@ -29,9 +29,9 @@ onMounted(function () {
   bottom: 0;
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 10px;
-  background: #fff;
+  gap: var(--fxy-space-md);
+  padding: var(--fxy-space-md);
+  background: var(--fxy-color-bg);
 }
 
 .footer-body {
@@ -40,7 +40,7 @@ onMounted(function () {
 }
 
 .footer-version {
-  color: #909399;
+  color: var(--fxy-color-text-secondary);
   font-size: 12px;
   white-space: nowrap;
 }

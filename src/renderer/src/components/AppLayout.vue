@@ -24,6 +24,6 @@
   right: 0;
   top: 0;
   /* 底部留出固定底栏的高度 */
-  padding: 10px 10px 52px 10px;
+  padding: var(--fxy-space-md) var(--fxy-space-md) var(--fxy-footer-height);
 }
 </style>

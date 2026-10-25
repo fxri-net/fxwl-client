@@ -5,6 +5,7 @@ import router from "@/router/index"
 import elementPlus from "element-plus"
 import { useBridge } from "@/composables/useBridge"
 import "element-plus/dist/index.css"
+import "@/styles/tokens.scss"
 import "@/styles/base.scss"
 
 // 初始化应用
