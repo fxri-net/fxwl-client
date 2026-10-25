@@ -12,6 +12,8 @@ import {
   useRouter,
   useRoute
 } from "vue-router"
+import { imApp, imStore, imView } from "@/libs/base"
+import { doView } from "@/libs/nav"
 // 路由记录
 const routes: Array<RouteRecordRaw> = [
   {
@@ -39,17 +41,16 @@ const routes: Array<RouteRecordRaw> = [
 ]
 // 匹配根路径
 const config: any = {}
-$.each(routes.reverse(), function (_key, value) {
+for (const value of routes.reverse()) {
   // 疏理配置
   config.path = window.location.pathname
   config.index = config.path.lastIndexOf(value.path)
   // 疏理根路径
   if (config.index !== -1) {
     config.base = config.path.substring(0, config.index)
-    return false
+    break
   }
-  return true
-})
+}
 // 创建路由
 const router = createRouter({
   // history: createWebHistory(config.base),
@@ -68,8 +69,9 @@ router.afterEach(() => {
   // 疏理路由器
   imView.router = useRouter()
   // 疏理路由
-  $.each(useRoute().query, function (key, value) {
-    imApp.param.value[key] = value
+  const route = useRoute()
+  Object.keys(route.query).forEach(function (key) {
+    imApp.param.value[key] = route.query[key]
   })
   // 初始化页面
   if (!imApp.init) {

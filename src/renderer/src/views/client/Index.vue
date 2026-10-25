@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { imStore } from "@/libs/base"
-import { doView } from "@/libs/module"
+import { doView } from "@/libs/nav"
 /** 离开页面 */
 function leavePage() {
   // 移除webview标签
-  $(".fxy-panel .box").remove()
+  document.querySelector(".fxy-panel .box")?.remove()
   // 跳转到首页
   doView.jump("/")
 }

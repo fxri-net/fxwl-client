@@ -1,6 +1,9 @@
 <script setup lang="ts">
+import { STORE_SCOPES } from "@shared/defines"
 import { imApp, imStore, imView } from "@/libs/base"
-import { doView } from "@/libs/module"
+import { isBlank } from "@/libs/is"
+import { doView } from "@/libs/nav"
+import { doData } from "@/libs/obj"
 import store from "@/utils/store"
 /** 配置索引 */
 function tabChange(name: any) {
@@ -15,8 +18,8 @@ function reloadStore(name?: typeof imStore.app.store_name) {
     return
   }
   // 重置数据
-  $.each(imStore, function (key) {
-    doData.merge("ref|mix", imStore[key], store[key].data)
+  STORE_SCOPES.forEach(function (scope) {
+    doData.merge("ref|mix", imStore[scope], store[scope].data)
   })
   // 刷新页面
   reloadPage()

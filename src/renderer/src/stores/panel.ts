@@ -3,6 +3,9 @@
 // +----------------------------------------------------------------------
 // | Category 方弦研究所
 // +----------------------------------------------------------------------
+import { reactive } from "vue"
+import { doParam } from "@/libs/module"
+import { doData } from "@/libs/obj"
 /** 数据 */
 const data = {
   /** 窗口 */

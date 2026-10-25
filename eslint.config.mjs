@@ -19,7 +19,6 @@ const ignores = [
   "website/**",
   "config/**",
   // unplugin 生成的声明文件不参与校验
-  "src/renderer/src/auto-imports.d.ts",
   "src/renderer/src/components.d.ts"
 ]
 
@@ -70,7 +69,7 @@ export default tseslint.config(
       }
     },
     rules: {
-      // 类型检查已覆盖未定义标识符，auto-import 注入的全局对 ESLint 不可见
+      // 类型检查已覆盖未定义标识符，preload 暴露的 doNative 对 ESLint 不可见
       "no-undef": "off",
       "no-unused-vars": "off",
       "@typescript-eslint/no-unused-vars": "warn"

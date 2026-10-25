@@ -3,17 +3,22 @@
 // +----------------------------------------------------------------------
 // | Category 方弦研究所
 // +----------------------------------------------------------------------
+import type { Ref } from "vue"
+import { ref, watch } from "vue"
+import type { Router } from "vue-router"
 import type { StoreScope } from "@shared/defines"
+import { STORE_SCOPES } from "@shared/defines"
+import { doData } from "@/libs/obj"
+import { doParam } from "@/libs/module"
 import store from "@/utils/store"
-import { Router } from "vue-router"
 /** 应用 */
 export const imApp: {
   /** 初始化 */
   init: boolean
   /** 应用时钟 */
-  clock: globalThis.Ref<string>
+  clock: Ref<string>
   /** 应用参数 */
-  param: globalThis.Ref
+  param: Ref
   /** 通信服务 */
   socket?: WebSocket
 } = {
@@ -35,9 +40,9 @@ export const imView: {
   /** 路由器 */
   router?: Router
   /** 缩放比例 */
-  scale: globalThis.Ref<string>
+  scale: Ref<string>
   /** 数据部署 */
-  deploy: globalThis.Ref
+  deploy: Ref
 } = {
   scale: ref(""),
   deploy: ref({})
@@ -47,22 +52,25 @@ doParam.watch("param", imApp.param)
 // 监听数据部署
 doParam.watch("deploy", imView.deploy)
 // 配置联动存储
-$.each(imStore, function (key) {
-  /** 存储范围 */
-  const scope = key as StoreScope
+STORE_SCOPES.forEach(function (scope: StoreScope) {
   // 本地数据
   window.doNative != undefined &&
     doNative.config.get(scope).then(function (res) {
       if (res == undefined) {
-        doData.merge("ref|mix", imStore[key], store[key].data)
+        doData.merge("ref|mix", imStore[scope], store[scope].data)
       }
-      $.each(res, function (key2, value2) {
-        imStore[key][key2].value = value2
+      // 逐个回填已持久化的字段
+      Object.keys(res ?? {}).forEach(function (key) {
+        /** 存储中同名的字段值 */
+        const value = (res as Record<string, unknown>)[key]
+        /** 内存中对应的字段 */
+        const item = (imStore[scope] as Record<string, unknown>)[key] as { value: unknown } | undefined
+        item && (item.value = value)
       })
     })
   // 监听存储
   watch(
-    imStore[key],
+    imStore[scope],
     (data) => {
       window.doNative != undefined && doNative.config.set(scope, JSON.parse(JSON.stringify(data)))
     },

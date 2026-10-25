@@ -1,9 +1,7 @@
 import { defineConfig, externalizeDepsPlugin, bytecodePlugin } from "electron-vite"
 import vue from "@vitejs/plugin-vue"
-import AutoImport from "unplugin-auto-import/vite"
 import Components from "unplugin-vue-components/vite"
 import { ElementPlusResolver } from "unplugin-vue-components/resolvers"
-import inject from "@rollup/plugin-inject"
 import path from "path"
 import type { Plugin } from "vite"
 
@@ -73,20 +71,9 @@ export default defineConfig({
     plugins: [
       doPolicy(),
       vue(),
-      AutoImport({
-        imports: ["vue"],
-        dirs: ["./src/libs"],
-        dts: "src/auto-imports.d.ts"
-      }),
       Components({
         resolvers: [ElementPlusResolver()],
         dts: "src/components.d.ts"
-      }),
-      inject({
-        // 这里会自动载入 node_modules 中的 jquery jquery全局变量
-        $: "jquery",
-        jQuery: "jquery",
-        "windows.jQuery": "jquery"
       })
     ],
     // 解决方案

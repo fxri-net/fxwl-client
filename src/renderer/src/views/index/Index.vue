@@ -1,5 +1,7 @@
 <script setup lang="ts">
-import { doView } from "@/libs/module"
+import { ref } from "vue"
+import { imApp, imView } from "@/libs/base"
+import { doView } from "@/libs/nav"
 // 初始化变量
 const list = ref([
   { title: "配置项", url: "/config" },
