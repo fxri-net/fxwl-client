@@ -70,7 +70,16 @@ export default defineConfig({
     // 插件数组
     plugins: [
       doPolicy(),
-      vue(),
+      // webview 是 Electron 注入的自定义标签，需显式声明，否则会被当作未注册组件解析
+      vue({
+        template: {
+          compilerOptions: {
+            isCustomElement: function (tag: string) {
+              return tag == "webview"
+            }
+          }
+        }
+      }),
       Components({
         resolvers: [ElementPlusResolver()],
         dts: "src/components.d.ts"
