@@ -11,6 +11,9 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    ActionBar: typeof import('./components/ActionBar.vue')['default']
+    AppFooter: typeof import('./components/AppFooter.vue')['default']
+    AppLayout: typeof import('./components/AppLayout.vue')['default']
     ElButton: typeof import('element-plus/es')['ElButton']
     ElCard: typeof import('element-plus/es')['ElCard']
     ElCol: typeof import('element-plus/es')['ElCol']
@@ -27,5 +30,7 @@ declare module 'vue' {
     ElTabs: typeof import('element-plus/es')['ElTabs']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    SettingField: typeof import('./components/SettingField.vue')['default']
+    SettingSwitch: typeof import('./components/SettingSwitch.vue')['default']
   }
 }
