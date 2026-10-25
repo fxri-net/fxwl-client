@@ -3,6 +3,7 @@
 // +----------------------------------------------------------------------
 // | Category 方弦研究所
 // +----------------------------------------------------------------------
+import type { StoreScope } from "@shared/defines"
 import store from "@/utils/store"
 import { Router } from "vue-router"
 /** 应用 */
@@ -47,9 +48,11 @@ doParam.watch("param", imApp.param)
 doParam.watch("deploy", imView.deploy)
 // 配置联动存储
 $.each(imStore, function (key) {
+  /** 存储范围 */
+  const scope = key as StoreScope
   // 本地数据
   window.doNative != undefined &&
-    doNative.store("get", key).then(function (res) {
+    doNative.config.get(scope).then(function (res) {
       if (res == undefined) {
         doData.merge("ref|mix", imStore[key], store[key].data)
       }
@@ -61,10 +64,7 @@ $.each(imStore, function (key) {
   watch(
     imStore[key],
     (data) => {
-      window.doNative != undefined &&
-        doNative.store("set", {
-          [key]: JSON.parse(JSON.stringify(data))
-        })
+      window.doNative != undefined && doNative.config.set(scope, JSON.parse(JSON.stringify(data)))
     },
     { deep: true }
   )

@@ -19,11 +19,11 @@ function reloadPage() {
 }
 /** 重启应用 */
 function restartApp() {
-  doNative.restart()
+  doNative.app.restart()
 }
 /** 退出应用 */
 function exitApp() {
-  doNative.quit()
+  doNative.app.quit()
 }
 </script>
 

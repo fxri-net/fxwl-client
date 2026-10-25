@@ -5,6 +5,7 @@
 // +----------------------------------------------------------------------
 import { app, BrowserWindow } from "electron"
 import { electronApp, optimizer } from "@electron-toolkit/utils"
+import { doConfig } from "@shared/config"
 import { doEnv } from "./env"
 import { doIpc } from "./ipc"
 import { doStatic } from "./service/static"
@@ -34,8 +35,10 @@ if (!locked) {
     // 创建窗口并注册事件
     doWindow.create()
     doIpc.register()
-    // 创建HTTP服务
-    doStatic.start()
+    // 创建HTTP服务：开关开启时才启动，失败不阻断应用
+    if (doConfig.migrate(doStore.all()).panel.server.switch) {
+      doStatic.start().catch(error => console.warn("[static] 静态服务启动失败：", error))
+    }
     app.on("activate", function () {
       // macOS 上点击 dock 图标且无窗口时重建窗口
       if (BrowserWindow.getAllWindows().length === 0) doWindow.create()

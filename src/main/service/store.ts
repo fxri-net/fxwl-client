@@ -17,6 +17,10 @@ const store = new Store({
 export const doStore = {
   /** 配置目录 */
   dir: dir,
+  /** 读取全部配置 @return 完整配置 */
+  all: function (): Record<string, any> {
+    return store.store
+  },
   /** 读取数据 @param key 配置键 @return 配置值 */
   get: function (key: string): any {
     return store.get(key)

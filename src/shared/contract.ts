@@ -53,24 +53,46 @@ export type IpcParam<K extends IpcChannel> = IpcContract[K]["param"]
 /** 通道出参 */
 export type IpcResult<K extends IpcChannel> = IpcContract[K]["result"]
 
-/** 选择对话框参数：渲染层只声明标题与属性，其余项由主进程兜底 */
-export interface OpenFileOption {
-  /** 对话框标题 */
-  title?: string
-  /** 选择属性，如 openDirectory、multiSelections */
-  properties?: string[]
-}
-
 /** 本地桥：渲染层可用的原生能力，白名单之外不可达 */
 export interface NativeBridge {
-  /** 重启应用 @return 完成信号 */
-  restart: () => Promise<IpcResult<"app:restart">>
-  /** 退出应用 @return 完成信号 */
-  quit: () => Promise<IpcResult<"app:quit">>
-  /** 配置读写 @param name 操作类型 @param data 读取时为配置范围，写入时为完整配置对象 @return 读取结果 */
-  store: (name: "get" | "set", data: unknown) => Promise<any>
-  /** 选择文件或目录 @param option 对话框参数 @return 选中的路径，取消时为 undefined */
-  openFile: (option: OpenFileOption) => Promise<string[] | undefined>
+  /** 应用能力 */
+  app: {
+    /** 应用版本 @return 版本号 */
+    version: () => Promise<IpcResult<"app:version">>
+    /** 重启应用 */
+    restart: () => Promise<IpcResult<"app:restart">>
+    /** 退出应用 */
+    quit: () => Promise<IpcResult<"app:quit">>
+    /** 打开配置目录 */
+    openConfigDir: () => Promise<IpcResult<"app:openConfigDir">>
+  }
+  /** 配置能力 */
+  config: {
+    /** 读取配置 @param scope 存储范围 @return 该范围的归一配置 */
+    get: (scope: StoreScope) => Promise<IpcResult<"config:get">>
+    /** 写入配置 @param scope 存储范围 @param data 该范围的完整配置 */
+    set: (scope: StoreScope, data: Record<string, unknown>) => Promise<IpcResult<"config:set">>
+    /** 重置配置 @param scope 存储范围 */
+    reset: (scope: StoreScope) => Promise<IpcResult<"config:reset">>
+    /** 配置目录 @return 配置目录路径 */
+    dir: () => Promise<IpcResult<"config:dir">>
+  }
+  /** 服务能力 */
+  service: {
+    /** 启动静态服务 @return 启动后的状态 */
+    start: () => Promise<IpcResult<"service:start">>
+    /** 停止静态服务 @return 停止后的状态 */
+    stop: () => Promise<IpcResult<"service:stop">>
+    /** 查询静态服务状态 @return 当前状态 */
+    status: () => Promise<IpcResult<"service:status">>
+    /** 探测端口是否可用 @param port 端口 @return 是否可用 */
+    port: (port: number) => Promise<IpcResult<"service:port">>
+  }
+  /** 对话框能力 */
+  dialog: {
+    /** 选择目录 @param title 对话框标题 @return 选中的目录，取消时为 null */
+    openDirectory: (title?: string) => Promise<IpcResult<"dialog:openDirectory">>
+  }
 }
 
 /** 通道常量 */

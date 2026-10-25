@@ -23,13 +23,10 @@ function reloadStore(name?: typeof imStore.app.store_name) {
 }
 /** 选择目录 */
 async function chooseDir() {
-  const data = await doNative.openFile({
-    title: "选择目录",
-    properties: ["openDirectory"]
-  })
-  if (isBlank(data) || data == undefined) return
-  // 对话框返回路径数组，目录取首个
-  imStore.panel.server.dir = data[0]
+  /** 选中的目录，取消时为 null */
+  const dir = await doNative.dialog.openDirectory("选择目录")
+  if (dir == null || isBlank(dir)) return
+  imStore.panel.server.dir = dir
 }
 /** 清理缓存 */
 function cleanCache() {
@@ -45,11 +42,11 @@ function reloadPage() {
 }
 /** 重启应用 */
 function restartApp() {
-  doNative.restart()
+  doNative.app.restart()
 }
 /** 退出应用 */
 function exitApp() {
-  doNative.quit()
+  doNative.app.quit()
 }
 </script>
 
