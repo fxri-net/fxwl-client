@@ -6,6 +6,8 @@ docs/.vitepress/dist
 docs/.vitepress/cache
 /config/*
 /website/*
+# CI 的 Electron 二进制下载缓存
+/.cache
 *.log*
 .archive.lock
 

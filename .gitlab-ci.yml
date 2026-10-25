@@ -10,9 +10,17 @@ stages:
 .test-setup: &test-setup
   image: node:20.20.2
   variables:
-    # Runner 容器访问 github.com 超时，跳过 electron 的二进制下载（约 92MB）
-    # 本流水线的 verify / pages 都不需要 Electron 可执行文件；将来若在此打包，改用 ELECTRON_MIRROR 指向国内镜像
-    ELECTRON_SKIP_BINARY_DOWNLOAD: "1"
+    # 构建期的 bytecode 插件要 spawn Electron 二进制编译 .jsc，二进制不可省
+    # Runner 直连 github.com 下载超时，改走国内镜像；该镜像目录不带 v 前缀，故显式指定 {{ version }}
+    ELECTRON_MIRROR: "https://npmmirror.com/mirrors/electron/"
+    ELECTRON_CUSTOM_DIR: "{{ version }}"
+    # 下载缓存落在项目目录，配合下方 cache 跨 job 复用，避免 verify 与 pages 各下一遍约 92MB
+    electron_config_cache: "$CI_PROJECT_DIR/.cache/electron"
+  # 按分支复用：缓存内部按下载地址的目录哈希分桶，Electron 升级不会串包
+  cache:
+    key: "electron-$CI_COMMIT_REF_SLUG"
+    paths:
+      - .cache/electron/
   before_script:
     - corepack enable
     - pnpm install --frozen-lockfile
