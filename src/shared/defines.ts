@@ -42,3 +42,6 @@ export const ServiceState = {
 } as const
 /** 服务状态 */
 export type ServiceState = (typeof ServiceState)[keyof typeof ServiceState]
+
+/** 内嵌页会话分区：不带 persist 前缀，数据只留在内存，与应用自身会话隔离 */
+export const CLIENT_PARTITION = "fxy-client"

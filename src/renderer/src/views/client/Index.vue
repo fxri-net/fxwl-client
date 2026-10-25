@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { CLIENT_PARTITION } from "@shared/defines"
 import { doView } from "@/libs/nav"
 import { imStore } from "@/stores"
 /** 离开页面 */
@@ -16,7 +17,7 @@ function leavePage() {
       <div class="back" @click="leavePage"></div>
     </div>
     <div class="fxy-panel">
-      <webview id="box" class="box" :src="imStore.client.url_host"></webview>
+      <webview id="box" class="box" :partition="CLIENT_PARTITION" :src="imStore.client.url_host"></webview>
     </div>
   </div>
 </template>
