@@ -9,6 +9,10 @@ stages:
 # 与 .node-version 对齐，避免与 GitHub Actions 两侧 Node 版本漂移
 .test-setup: &test-setup
   image: node:20.20.2
+  variables:
+    # Runner 容器访问 github.com 超时，跳过 electron 的二进制下载（约 92MB）
+    # 本流水线的 verify / pages 都不需要 Electron 可执行文件；将来若在此打包，改用 ELECTRON_MIRROR 指向国内镜像
+    ELECTRON_SKIP_BINARY_DOWNLOAD: "1"
   before_script:
     - corepack enable
     - pnpm install --frozen-lockfile
