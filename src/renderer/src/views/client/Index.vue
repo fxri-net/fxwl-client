@@ -47,6 +47,12 @@ function startLoad() {
 function stopLoad() {
   datas.loading = false
 }
+/** 内嵌页文档就绪 */
+function readyLoad() {
+  // 文档就绪即可呈现内容，不必等全部资源加载完成才撤遮罩
+  syncBack()
+  stopLoad()
+}
 /** 处理加载失败 */
 function failLoad(event: { errorCode: number; errorDescription: string; isMainFrame: boolean }) {
   // 子框架失败不影响整体展示，错误码 -3 表示导航被主动取消
@@ -110,7 +116,7 @@ onBeforeUnmount(function () {
         class="box"
         :partition="CLIENT_PARTITION"
         :src="imStore.client.url_host"
-        @dom-ready="syncBack"
+        @dom-ready="readyLoad"
         @did-start-loading="startLoad"
         @did-stop-loading="stopLoad"
         @did-fail-load="failLoad"

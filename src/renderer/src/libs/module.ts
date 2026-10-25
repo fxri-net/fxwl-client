@@ -3,7 +3,11 @@
 // +----------------------------------------------------------------------
 // | Category 方弦研究所
 // +----------------------------------------------------------------------
-import { ElMessage, ElNotification } from "element-plus"
+// 消息与通知以函数方式调用，模板解析器接管不到，需按子路径引入并带样式
+import { ElMessage } from "element-plus/es/components/message/index"
+import { ElNotification } from "element-plus/es/components/notification/index"
+import "element-plus/es/components/message/style/css"
+import "element-plus/es/components/notification/style/css"
 import { isEmpty, isObject, isSet, isString } from "@/libs/is"
 /** 消息模块 */
 export const doInfo = {
