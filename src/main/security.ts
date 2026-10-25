@@ -130,9 +130,13 @@ function prepareGuest(guest: WebContents, host: WebContents): void {
     if (isExternal(details.url)) shell.openExternal(details.url)
     return { action: "deny" }
   })
+  // 销毁后 guest 不可再用，会话引用需在挂载监听前取出
+  const guestSession = guest.session
   // 内嵌页销毁即清理会话数据，下次进入从干净状态开始
   guest.once("destroyed", function () {
-    void guest.session.clearStorageData()
+    guestSession.clearStorageData().catch(function (error) {
+      console.warn("[guest] 会话清理失败：", error)
+    })
   })
 }
 /** 安全策略 */
