@@ -18,7 +18,9 @@ stages:
 
 # 与 .node-version 对齐，避免与 GitHub Actions 两侧 Node 版本漂移
 .test-setup: &test-setup
-  image: $CI_IMAGE
+  image:
+    name: $CI_IMAGE
+    pull_policy: if-not-present
   needs:
     - toolchain:spec
     - toolchain:ensure
