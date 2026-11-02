@@ -157,7 +157,7 @@ pnpm verify         # 验收：lint → typecheck → test → build
 
 - 提交信息用中文类型头（新增 / 修改 / 修复 / 优化 / 清理 / 文档），标题写祈使句。
 - 用户可感知的改动通过 `pnpm changelog:add` 建变更集，发版由 `pnpm changelog:version` 消费变更集生成 `CHANGELOG.md`，不要手改版本号。
-- 文档站的更新日志页由 `pnpm sync:changelog-doc` 从根 `CHANGELOG.md` 生成，改完日志再执行一次同步。
+- 文档站的更新日志页由全局 `toolkit changelog doc` 从根 `CHANGELOG.md` 生成，改完日志再执行一次同步。
 - 三平台出包细节见[构建与打包](./build)。
 
 ## 持续集成与文档发布

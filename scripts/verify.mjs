@@ -17,6 +17,7 @@ const steps = [
   { label: "静态检查（lint）", args: ["run", "lint"] },
   { label: "类型检查（typecheck）", args: ["run", "typecheck"] },
   { label: "单元测试（test）", args: ["run", "test"] },
+  { label: "更新日志镜像（CHANGELOG → docs）", command: process.execPath, args: ["scripts/check-changelog-doc.mjs"] },
   { label: "构建（build）", args: ["run", "build"] },
 ]
 
@@ -117,7 +118,8 @@ function checkChangeset() {
 const failedSteps = []
 for (const step of steps) {
   console.log(`\n▶ ${step.label}`)
-  const result = spawnSync("npm", step.args, { cwd: root, stdio: "inherit", shell: isWindows })
+  const command = step.command ?? "npm"
+  const result = spawnSync(command, step.args, { cwd: root, stdio: "inherit", shell: command === "npm" && isWindows })
   if (result.status !== 0) {
     failedSteps.push(step.label)
     break
