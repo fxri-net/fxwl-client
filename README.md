@@ -69,6 +69,10 @@ Windows 提供 NSIS 安装包（可选安装目录、默认建桌面快捷方式
 | [常见问题](./docs/faq.md) | 排障：加载失败、错误码、权限限制、端口占用 |
 | [更新日志](./CHANGELOG.md) | 查各版本变更内容 |
 
+## 🛠️ 开发约定
+
+仓库级能力变更门禁、验收顺序与协作约束见 [AGENTS.md](./AGENTS.md)；提交信息遵循 `.trae/rules/git-commit-message.md`。
+
 ## 📄 版权信息
 
 作者：唐启云 <tqy@fxri.net>

@@ -28,7 +28,7 @@
     "docs:dev": "vitepress dev docs",
     "docs:build": "npm run sync:changelog-doc && vitepress build docs",
     "docs:preview": "vitepress preview docs",
-    "verify": "npm run lint && npm run typecheck && npm run test && npm run build",
+    "verify": "node scripts/verify.mjs",
     "start": "electron-vite preview",
     "dev": "electron-vite dev",
     "build": "npm run typecheck && electron-vite build",
