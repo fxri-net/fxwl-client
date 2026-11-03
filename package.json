@@ -1,6 +1,6 @@
 {
   "name": "@fxri/fxwl-client",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "private": true,
   "description": "方弦物联：桌面终端",
   "main": "./out/main/index.js",
