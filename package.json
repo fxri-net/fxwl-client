@@ -1,6 +1,6 @@
 {
   "name": "@fxri/fxwl-client",
-  "version": "2.1.5",
+  "version": "2.1.6",
   "private": true,
   "description": "网页程序桌面展示终端：安装后填入网页地址即可获得开机自启、全屏置顶与悬浮导航。",
   "license": "Apache-2.0",
