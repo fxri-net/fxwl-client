@@ -1,5 +1,5 @@
 {
-  "name": "fxwl-client",
+  "name": "@fxri/fxwl-client",
   "version": "2.1.1",
   "private": true,
   "description": "方弦物联：桌面终端",
