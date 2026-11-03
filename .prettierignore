@@ -1,2 +1,4 @@
 # @fxri/toolkit 任务区不参与格式化（表格保持紧凑形态，避免列对齐填充）
 .tasks/
+# 主题文件由 toolkit docs theme 生成并逐字校验，格式化会破坏与模板的一致性
+docs/.vitepress/theme/
