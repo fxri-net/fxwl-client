@@ -2,15 +2,22 @@
   "name": "@fxri/fxwl-client",
   "version": "2.1.3",
   "private": true,
-  "description": "方弦物联：桌面终端",
-  "main": "./out/main/index.js",
+  "description": "网页程序桌面展示终端：安装后填入网页地址即可获得开机自启、全屏置顶与悬浮导航。",
+  "license": "Apache-2.0",
   "author": {
     "name": "唐启云",
     "email": "tqy@fxri.net",
-    "url": "https://www.fxri.net"
+    "url": "https://fxri.net:444/"
   },
-  "homepage": "https://www.fxri.net",
-  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fxri-net/fxwl-client.git"
+  },
+  "bugs": {
+    "url": "https://github.com/fxri-net/fxwl-client/issues"
+  },
+  "homepage": "https://fxri-net.github.io/fxwl-client/",
+  "main": "./out/main/index.js",
   "scripts": {
     "format": "prettier --write .",
     "lint": "eslint .",
@@ -21,10 +28,10 @@
     "typecheck": "npm run typecheck:node && npm run typecheck:main && npm run typecheck:web",
     "test": "vitest run",
     "test:watch": "vitest",
-    "changelog:add": "toolkit changelog",
-    "changelog:version": "toolkit changelog version",
-    "changelog:format": "toolkit changelog format",
-    "sync:changelog-doc": "toolkit changelog doc",
+    "changeset": "node scripts/toolkit.mjs changelog",
+    "changelog:version": "node scripts/toolkit.mjs changelog version",
+    "changelog:format": "node scripts/toolkit.mjs changelog format",
+    "sync:changelog-doc": "node scripts/toolkit.mjs changelog doc",
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
     "docs:preview": "vitepress preview docs",
@@ -39,6 +46,17 @@
     "build:mac-shell": "electron-builder --mac --config",
     "build:linux-shell": "electron-builder --linux --config"
   },
+  "keywords": [
+    "fxwl-client",
+    "electron",
+    "desktop",
+    "kiosk",
+    "fxri"
+  ],
+  "engines": {
+    "node": ">=20.19.0"
+  },
+  "packageManager": "pnpm@10.34.4",
   "dependencies": {
     "@electron-toolkit/utils": "^4.0.0",
     "electron-store": "^8.1.0",
@@ -75,9 +93,5 @@
     "vue-eslint-parser": "^10.4.1",
     "vue-router": "^4.6.4",
     "vue-tsc": "^2.2.12"
-  },
-  "engines": {
-    "node": ">=20"
-  },
-  "packageManager": "pnpm@10.34.4"
+  }
 }
