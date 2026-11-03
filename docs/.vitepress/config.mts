@@ -37,7 +37,7 @@ export default defineConfig({
     ["meta", { property: "og:title", content: SITE_NAME }],
     ["meta", { property: "og:description", content: SITE_DESC }],
     // og:image 必须为绝对地址，社交平台据此抓取分享卡片
-    ["meta", { property: "og:image", content: `${siteUrl}logo.png` }],
+    ["meta", { property: "og:image", content: `${siteUrl}og-image.png` }],
     ["meta", { property: "og:url", content: siteUrl }],
     ["meta", { name: "twitter:card", content: "summary_large_image" }]
   ],
