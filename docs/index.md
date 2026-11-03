@@ -86,7 +86,7 @@ npm run dev
 ## 运行环境
 
 - 运行端：Windows 7 SP1 及以上、macOS、Linux（x64）
-- 开发端：Node.js >= 20（仓库锁定 20.20.2）、pnpm 10
+- 开发端：Node.js >= 20.19.0（仓库锁定 20.20.2）、pnpm 10
 - 内嵌页面：仅支持 `http` 与 `https` 地址
 
 ## 相关仓库文件
