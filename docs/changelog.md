@@ -6,6 +6,14 @@ outline: [2, 2]
 
 > 完整变更历史以根 `CHANGELOG.md` 为准，本页由 `toolkit changelog doc` 自动同步，请勿手改。
 
+## 2.1.5
+
+> 2026-11-03 发布
+
+### 📝 文档更新
+
+- 修正发版脚本名与 Node.js 版本要求，与 package.json 的 scripts 及 engines 保持一致
+
 ## 2.1.4
 
 > 2026-11-03 发布
