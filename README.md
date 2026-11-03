@@ -8,6 +8,7 @@
 [![Release](https://img.shields.io/github/v/release/fxri-net/fxwl-client)](https://github.com/fxri-net/fxwl-client/releases)
 [![Windows 7+](https://img.shields.io/badge/windows-7%2B-blue)](./docs/getting-started.md)
 [![License: Apache 2.0](https://img.shields.io/badge/license-Apache%202.0-blue)](./LICENSE)
+[![文档站](https://img.shields.io/badge/docs-fxri--net.github.io%2Ffxwl--client-blueviolet)](https://fxri-net.github.io/fxwl-client/)
 
 网页程序桌面展示终端：安装后填入一个网页地址，即可把网页变成桌面应用——开机自启、自动全屏、窗口置顶、悬浮导航，只开发网页端也能拿到原生体验。
 
