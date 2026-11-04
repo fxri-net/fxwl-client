@@ -1,6 +1,6 @@
 // 聚合门禁：lint → typecheck → test → build → 文档链接与变更集一致性
 // 本地与 CI 共用本脚本，不在 CI 配置里另写步骤枚举
-import { execFileSync, spawnSync } from "node:child_process"
+import { execFileSync, spawn, spawnSync } from "node:child_process"
 import { existsSync, readFileSync, readdirSync } from "node:fs"
 import { dirname, join, relative, resolve, sep } from "node:path"
 import { fileURLToPath } from "node:url"
@@ -13,9 +13,16 @@ const skipChangeset = flags.has("--skip-changeset")
 const errors = []
 
 // 步骤清单：顺序有依赖，任一步失败即中止
+// 三套 tsconfig 各自 --noEmit --composite false、无共享产物，可安全并发：拆成并行组省掉两段串行等待
+const typecheckSteps = [
+  { label: "类型检查（node）", args: ["run", "typecheck:node"] },
+  { label: "类型检查（main）", args: ["run", "typecheck:main"] },
+  { label: "类型检查（web）", args: ["run", "typecheck:web"] },
+]
+
 const steps = [
   { label: "静态检查（lint）", args: ["run", "lint"] },
-  { label: "类型检查（typecheck）", args: ["run", "typecheck"] },
+  { label: "类型检查（node / main / web 并行）", parallel: typecheckSteps },
   { label: "单元测试（test）", args: ["run", "test"] },
   { label: "更新日志镜像（CHANGELOG → docs）", command: process.execPath, args: ["scripts/check-changelog-doc.mjs"] },
   { label: "文档站主题一致（toolkit docs theme --check）", command: process.execPath, args: ["scripts/check-docs-theme.mjs"] },
@@ -121,8 +128,34 @@ function checkChangeset() {
   }
 }
 
+// 并发步骤先缓存输出再按顺序回放：继承 stdio 会让多个进程的输出互相穿插
+function runCaptured(step) {
+  return new Promise((resolve) => {
+    const command = step.command ?? "npm"
+    const child = spawn(command, step.args, { cwd: root, shell: command === "npm" && isWindows })
+    let stdout = ""
+    let stderr = ""
+    child.stdout.on("data", (chunk) => (stdout += chunk))
+    child.stderr.on("data", (chunk) => (stderr += chunk))
+    child.on("error", (err) => resolve({ step, code: 1, stdout, stderr: `${stderr}${err}` }))
+    child.on("close", (code) => resolve({ step, code: code ?? 1, stdout, stderr }))
+  })
+}
+
 const failedSteps = []
 for (const step of steps) {
+  if (step.parallel) {
+    console.log(`\n▶ ${step.label}`)
+    const results = await Promise.all(step.parallel.map(runCaptured))
+    for (const result of results) {
+      console.log(`\n—— ${result.step.label} ——`)
+      if (result.stdout) process.stdout.write(result.stdout)
+      if (result.stderr) process.stderr.write(result.stderr)
+      if (result.code !== 0) failedSteps.push(result.step.label)
+    }
+    if (failedSteps.length > 0) break
+    continue
+  }
   console.log(`\n▶ ${step.label}`)
   const command = step.command ?? "npm"
   const result = spawnSync(command, step.args, { cwd: root, stdio: "inherit", shell: command === "npm" && isWindows })
