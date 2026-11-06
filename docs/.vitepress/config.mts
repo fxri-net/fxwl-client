@@ -47,8 +47,14 @@ export default defineConfig({
     // 导航栏 logo（字符串路径由 VitePress 自动拼接 base 前缀）
     logo: "/logo.png",
     nav: [
-      { text: "指南", link: "/getting-started" },
-      { text: "使用手册", link: "/manual" },
+      { text: "快速开始", link: "/getting-started" },
+      {
+        text: "指南",
+        items: [
+          { text: "使用手册", link: "/manual" },
+          { text: "开发指南", link: "/development" }
+        ]
+      },
       {
         text: "参考",
         items: [
@@ -56,29 +62,38 @@ export default defineConfig({
           { text: "构建与打包", link: "/build" }
         ]
       },
-      { text: "开发", link: "/development" },
-      { text: "FAQ", link: "/faq" },
-      { text: "更新日志", link: "/changelog" }
+      {
+        text: "帮助",
+        items: [
+          { text: "常见问题", link: "/faq" },
+          { text: "更新日志", link: "/changelog" }
+        ]
+      }
     ],
     sidebar: [
       {
         text: "开始",
         items: [
           { text: "首页", link: "/" },
-          { text: "快速开始", link: "/getting-started" },
-          { text: "使用手册", link: "/manual" }
+          { text: "快速开始", link: "/getting-started" }
+        ]
+      },
+      {
+        text: "指南",
+        items: [
+          { text: "使用手册", link: "/manual" },
+          { text: "开发指南", link: "/development" }
         ]
       },
       {
         text: "参考",
         items: [
           { text: "配置说明", link: "/config" },
-          { text: "构建与打包", link: "/build" },
-          { text: "开发指南", link: "/development" }
+          { text: "构建与打包", link: "/build" }
         ]
       },
       {
-        text: "答疑",
+        text: "帮助",
         items: [
           { text: "常见问题", link: "/faq" },
           { text: "更新日志", link: "/changelog" }

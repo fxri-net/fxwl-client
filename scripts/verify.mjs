@@ -26,6 +26,7 @@ const steps = [
   { label: "单元测试（test）", args: ["run", "test"] },
   { label: "更新日志镜像（CHANGELOG → docs）", command: process.execPath, args: ["scripts/check-changelog-doc.mjs"] },
   { label: "文档站主题一致（toolkit docs theme --check）", command: process.execPath, args: ["scripts/check-docs-theme.mjs"] },
+  { label: "文档站导航规范（分类 / 命名 / 顶栏）", command: process.execPath, args: ["scripts/check-docs-nav.mjs"] },
   { label: "构建（build）", args: ["run", "build"] },
 ]
 
