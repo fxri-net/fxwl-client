@@ -34,11 +34,37 @@ jobs:
       - name: 安装依赖
         run: pnpm install --frozen-lockfile
 
-      # 本地与 CI 共用同一条聚合验收命令，不在此另抄步骤
+      # 本地与 CI 共用同一条聚合验收命令，不在此另抄步骤；
+      # 文档站构建较慢，矩阵内跳过、由下方 docs job 或 deploy-docs 各跑一次，避免同一推送构建多次
       - name: 聚合验收
-        run: pnpm run verify
+        run: pnpm run verify --skip-docs
 
       # Windows 额外确认打包链路可用，只产出未压缩目录、不做签名与发布
       - name: 打包冒烟
         if: runner.os == 'Windows'
         run: pnpm exec electron-builder --win --dir --publish never
+
+  # 文档站只在 PR 上构建一次：主分支推送由 deploy-docs 在发布前完成同一步，
+  # 两处共用同一份产物断言脚本，避免同一推送重复构建
+  docs:
+    name: 文档站（构建 + 404 排除）
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v5
+
+      - name: 安装 pnpm
+        uses: pnpm/action-setup@v6
+
+      - name: 安装 Node
+        uses: actions/setup-node@v5
+        with:
+          node-version-file: .node-version
+          cache: pnpm
+
+      - name: 安装依赖
+        run: pnpm install --frozen-lockfile
+
+      - name: 文档站构建与产物断言
+        run: pnpm docs:build && node scripts/check-docs-dist.mjs

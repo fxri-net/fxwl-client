@@ -10,6 +10,8 @@ const isWindows = process.platform === "win32"
 const flags = new Set(process.argv.slice(2))
 const skipLinks = flags.has("--skip-links")
 const skipChangeset = flags.has("--skip-changeset")
+// 文档站构建较慢，矩阵与部署链路已各自覆盖一次，其余平台可用本开关跳过
+const skipDocs = flags.has("--skip-docs")
 const errors = []
 
 // 步骤清单：顺序有依赖，任一步失败即中止
@@ -29,8 +31,8 @@ const steps = [
   { label: "文档站导航规范（分类 / 命名 / 顶栏）", command: process.execPath, args: ["scripts/check-docs-nav.mjs"] },
   { label: "构建（build）", args: ["run", "build"] },
   // 文档站构建同时做站内死链检查；产物断言依赖其 dist，故紧随其后
-  { label: "文档站构建（死链检查）", args: ["run", "docs:build"] },
-  { label: "文档站产物（404 排除站点地图与搜索索引）", command: process.execPath, args: ["scripts/check-docs-dist.mjs"] },
+  { label: "文档站构建（死链检查）", args: ["run", "docs:build"], skip: skipDocs ? "--skip-docs" : "" },
+  { label: "文档站产物（404 排除站点地图与搜索索引）", command: process.execPath, args: ["scripts/check-docs-dist.mjs"], skip: skipDocs ? "--skip-docs" : "" },
 ]
 
 // git 只读调用：成功返回输出（可能为空串），失败返回 null
@@ -148,6 +150,10 @@ function runCaptured(step) {
 
 const failedSteps = []
 for (const step of steps) {
+  if (step.skip) {
+    console.log(`\n⊘ ${step.label}（${step.skip}，跳过）`)
+    continue
+  }
   if (step.parallel) {
     console.log(`\n▶ ${step.label}`)
     const results = await Promise.all(step.parallel.map(runCaptured))

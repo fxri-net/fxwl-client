@@ -43,7 +43,8 @@ verify:
   <<: *test-setup
   stage: test
   script:
-    - pnpm verify
+    # 文档站构建与产物断言在 pages 作业里做一次，这里跳过以免同一推送构建两次
+    - pnpm verify --skip-docs
   rules:
     - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
 
@@ -60,6 +61,8 @@ pages:
     - export SITE_URL="${SITE_URL:-$PAGES_ORIGIN/$CI_PROJECT_NAME/}"
     - export REPO_URL="${REPO_URL:-$CI_PROJECT_URL}"
     - pnpm docs:build
+    # 发布前断言产物：404 页不得进入站点地图与站内搜索索引（与 CI 共用同一份脚本）
+    - node scripts/check-docs-dist.mjs
     - rm -rf public && mv docs/.vitepress/dist public
   artifacts:
     paths:
