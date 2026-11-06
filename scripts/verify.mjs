@@ -1,4 +1,4 @@
-// 聚合门禁：lint → typecheck → test → build → 文档链接与变更集一致性
+// 聚合门禁：lint → typecheck → test → build → 文档站构建与 404 产物断言 → 文档链接与变更集一致性
 // 本地与 CI 共用本脚本，不在 CI 配置里另写步骤枚举
 import { execFileSync, spawn, spawnSync } from "node:child_process"
 import { existsSync, readFileSync, readdirSync } from "node:fs"
@@ -28,6 +28,9 @@ const steps = [
   { label: "文档站主题一致（toolkit docs theme --check）", command: process.execPath, args: ["scripts/check-docs-theme.mjs"] },
   { label: "文档站导航规范（分类 / 命名 / 顶栏）", command: process.execPath, args: ["scripts/check-docs-nav.mjs"] },
   { label: "构建（build）", args: ["run", "build"] },
+  // 文档站构建同时做站内死链检查；产物断言依赖其 dist，故紧随其后
+  { label: "文档站构建（死链检查）", args: ["run", "docs:build"] },
+  { label: "文档站产物（404 排除站点地图与搜索索引）", command: process.execPath, args: ["scripts/check-docs-dist.mjs"] },
 ]
 
 // git 只读调用：成功返回输出（可能为空串），失败返回 null
