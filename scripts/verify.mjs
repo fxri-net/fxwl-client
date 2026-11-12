@@ -27,12 +27,12 @@ const steps = [
   { label: "类型检查（node / main / web 并行）", parallel: typecheckSteps },
   { label: "单元测试（test）", args: ["run", "test"] },
   { label: "更新日志镜像（CHANGELOG → docs）", command: process.execPath, args: ["scripts/check-changelog-doc.mjs"] },
-  { label: "文档站主题一致（toolkit docs theme check）", command: process.execPath, args: ["scripts/check-docs-theme.mjs"] },
-  { label: "文档站导航规范（分类 / 命名 / 顶栏）", command: process.execPath, args: ["scripts/check-docs-nav.mjs"] },
+  { label: "文档站主题一致（toolkit docs theme check）", run: checkDocsTheme },
+  { label: "文档站导航规范（分类 / 命名 / 顶栏）", run: checkDocsNav },
   { label: "构建（build）", args: ["run", "build"] },
   // 文档站构建同时做站内死链检查；产物断言依赖其 dist，故紧随其后
   { label: "文档站构建（死链检查）", args: ["run", "docs:build"], skip: skipDocs ? "--skip-docs" : "" },
-  { label: "文档站产物（404 排除站点地图与搜索索引）", command: process.execPath, args: ["scripts/check-docs-dist.mjs"], skip: skipDocs ? "--skip-docs" : "" },
+  { label: "文档站产物（404 排除站点地图与搜索索引）", run: checkDocsDist, skip: skipDocs ? "--skip-docs" : "" },
 ]
 
 // git 只读调用：成功返回输出（可能为空串），失败返回 null
@@ -148,6 +148,45 @@ function runCaptured(step) {
   })
 }
 
+/**
+ * 文档站主题一致性：全局 toolkit 可用时执行 docs theme check，未安装时打印跳过（远程 CI 不依赖该工具）。
+ * @return {number} 退出码
+ */
+function checkDocsTheme() {
+  const probe = spawnSync("toolkit", ["docs", "theme", "--help"], { encoding: "utf8", shell: isWindows })
+  if (probe.status !== 0) {
+    console.log("跳过文档站主题检查（未检测到 toolkit docs theme）")
+    return 0
+  }
+  return spawnSync("toolkit", ["docs", "theme", "check"], { cwd: root, stdio: "inherit", shell: isWindows }).status ?? 1
+}
+
+/**
+ * 文档站导航规范：全局 toolkit 可用时执行 docs nav check，未安装时打印跳过。
+ * @return {number} 退出码
+ */
+function checkDocsNav() {
+  const probe = spawnSync("toolkit", ["docs", "nav", "--help"], { encoding: "utf8", shell: isWindows })
+  if (probe.status !== 0) {
+    console.log("跳过文档站导航检查（未检测到 toolkit docs nav）")
+    return 0
+  }
+  return spawnSync("toolkit", ["docs", "nav", "check"], { cwd: root, stdio: "inherit", shell: isWindows }).status ?? 1
+}
+
+/**
+ * 文档站产物：全局 toolkit 可用时执行 docs dist check，未安装时打印跳过。
+ * @return {number} 退出码
+ */
+function checkDocsDist() {
+  const probe = spawnSync("toolkit", ["docs", "dist", "--help"], { encoding: "utf8", shell: isWindows })
+  if (probe.status !== 0) {
+    console.log("跳过文档站产物检查（未检测到 toolkit docs dist）")
+    return 0
+  }
+  return spawnSync("toolkit", ["docs", "dist", "check"], { cwd: root, stdio: "inherit", shell: isWindows }).status ?? 1
+}
+
 const failedSteps = []
 for (const step of steps) {
   if (step.skip) {
@@ -167,9 +206,15 @@ for (const step of steps) {
     continue
   }
   console.log(`\n▶ ${step.label}`)
-  const command = step.command ?? "npm"
-  const result = spawnSync(command, step.args, { cwd: root, stdio: "inherit", shell: command === "npm" && isWindows })
-  if (result.status !== 0) {
+  // 内联函数步骤（工具命令探测）自行返回退出码；其余按 command/args 起子进程
+  let status
+  if (step.run) {
+    status = step.run()
+  } else {
+    const command = step.command ?? "npm"
+    status = spawnSync(command, step.args, { cwd: root, stdio: "inherit", shell: command === "npm" && isWindows }).status
+  }
+  if (status !== 0) {
     failedSteps.push(step.label)
     break
   }
