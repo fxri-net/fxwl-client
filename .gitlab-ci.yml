@@ -61,8 +61,6 @@ pages:
     - export SITE_URL="${SITE_URL:-$PAGES_ORIGIN/$CI_PROJECT_NAME/}"
     - export REPO_URL="${REPO_URL:-$CI_PROJECT_URL}"
     - pnpm docs:build
-    # 发布前断言产物：404 页不得进入站点地图与站内搜索索引（与 CI 共用同一份脚本）
-    - node scripts/check-docs-dist.mjs
     - rm -rf public && mv docs/.vitepress/dist public
   artifacts:
     paths:
